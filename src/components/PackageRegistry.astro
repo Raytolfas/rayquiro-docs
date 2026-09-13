@@ -1,0 +1,92 @@
+---
+// Fetches package registry from rq.raytolfas.cc/framework at build time
+let packages: any[] = [];
+try {
+  const res = await fetch('https://rq.raytolfas.cc/framework', {
+    headers: { 'User-Agent': 'Mozilla/5.0 (RayQuiroDocs)' }
+  });
+  if (res.ok) {
+    const data = await res.json();
+    const rawList = Array.isArray(data)
+      ? data
+      : Object.entries(data).map(([name, info]: [string, any]) => ({ name, ...info }));
+
+    packages = await Promise.all(
+      rawList.map(async (pkg: any) => {
+        let version = pkg.version ?? pkg.v ?? pkg.tag;
+        if (!version && pkg.repo) {
+          // 1. Try fetching directly from rqio.json manifest (main or master)
+          for (const branch of ['main', 'master']) {
+            try {
+              const rawRes = await fetch(`https://raw.githubusercontent.com/${pkg.repo}/${branch}/rqio.json`, {
+                headers: { 'User-Agent': 'RayQuiroDocs/1.0' }
+              });
+              if (rawRes.ok) {
+                const manifest = await rawRes.json();
+                if (manifest?.version) {
+                  version = String(manifest.version);
+                  break;
+                }
+              }
+            } catch (_) {}
+          }
+
+          // 2. Fallback to latest GitHub release tag
+          if (!version) {
+            try {
+              const ghRes = await fetch(`https://api.github.com/repos/${pkg.repo}/releases/latest`, {
+                headers: { 'User-Agent': 'RayQuiroDocs/1.0' }
+              });
+              if (ghRes.ok) {
+                const ghData = await ghRes.json();
+                version = ghData.tag_name ?? ghData.name;
+              }
+            } catch (_) {}
+          }
+        }
+
+        // Clean to pure numeric SemVer (strip leading 'v')
+        let cleanVersion = version ? String(version).replace(/^v/i, '') : '0.0.1';
+
+        return {
+          name: pkg.name,
+          version: cleanVersion,
+          description: pkg.description ?? pkg.desc ?? '-',
+          repo: pkg.repo ?? pkg.repository ?? '',
+        };
+      })
+    );
+  }
+} catch (e) {
+  // build without network access - show placeholder
+}
+---
+
+{packages.length > 0 ? (
+<table>
+  <thead>
+    <tr><th>Package</th><th>Version</th><th>Description</th><th>Install</th></tr>
+  </thead>
+  <tbody>
+    {packages.map((pkg: any) => (
+      <tr>
+        <td><strong>{pkg.name}</strong></td>
+        <td>{pkg.version ?? '-'}</td>
+        <td>{pkg.description ?? '-'}</td>
+        <td><code>rqio add {pkg.name}</code></td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+) : (
+<div class='not-content'>
+  <p>Registry data is loaded from <a href='https://rq.raytolfas.cc/framework' target='_blank'>rq.raytolfas.cc/framework</a>.</p>
+  <p>Run <code>rqio list</code> to see installed packages, or <code>rqio add &lt;name&gt;</code> to install.</p>
+</div>
+)}
+
+<style>
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.5rem 0.75rem; border: 1px solid var(--sl-color-gray-5); text-align: left; }
+th { background: var(--sl-color-gray-7); font-weight: 600; }
+</style>

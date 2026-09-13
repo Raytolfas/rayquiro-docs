@@ -1,0 +1,35 @@
+---
+title: RayQuiro
+description: Official documentation for the RayQuiro programming language.
+template: splash
+hero:
+  tagline: A modern programming language for real applications.
+  actions:
+    - text: Get Started
+      link: /getting-started/installation/
+      icon: right-arrow
+      variant: primary
+    - text: GitHub
+      link: https://github.com/raytolfas/rayquiro
+      icon: external
+---
+
+## Overview
+
+RayQuiro is a compiled programming language with a dynamic runtime.
+Runs on Windows and Linux. Designed for real applications.
+
+```js
+async fn main() {
+    var now = datetime.now();
+    print("RayQuiro " + str(now?.["year"]));
+    print("ID: " + crypto.uuid());
+}
+main();
+```
+
+| Category | Names |
+|----------|-------|
+| **Built-ins** | `json`, `fs`, `env`, `process`, `datetime`, `path`, `hash`, `crypto`, `http`, `net`, `db`, `os`, `time` |
+| **Modules** | `rayquiro.engine`, `rayquiro.web`, `rayquiro.ui`, `rayquiro.app` |
+| **Packages** | Community packages via `rqio add` |
