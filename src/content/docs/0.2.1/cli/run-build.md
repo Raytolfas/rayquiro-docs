@@ -1,6 +1,8 @@
 ---
 title: rqio run / build / repl
-description: Run scripts, hot reload, interactive REPL, and compile standalone native binaries with TinyCC and LLVM.
+description: Run scripts, hot reload, interactive REPL, and compile standalone
+  native binaries with TinyCC and LLVM.
+slug: 0.2.1/cli/run-build
 ---
 
 ## rqio run
@@ -23,7 +25,7 @@ rqio run app.rq --watch
 
 Arguments passed after the script path are accessible within RayQuiro via `process.args()`.
 
----
+***
 
 ## rqio repl
 
@@ -49,7 +51,7 @@ Type "exit" or press Ctrl+C to quit.
 >>> exit
 ```
 
----
+***
 
 ## rqio build
 
@@ -62,6 +64,7 @@ rqio build <file.rq> [-o output] [flags...]
 ### Supported Compilers
 
 RayQuiro 0.2.1 includes autonomous compiler support:
+
 1. **TinyCC (TCC)**: Bundled directly with RayQuiro (`tools/tcc/` on Windows, system `tcc` on Linux). Enables fast, zero-dependency autonomous native compilation without requiring Clang, LLVM, or GCC installed on the machine.
 2. **LLVM / Clang**: For aggressive compiler optimizations and cross-compilation.
 
@@ -83,9 +86,9 @@ The `--target` flag supports shorthand aliases as well as standard LLVM target t
 
 | Alias | Target Triple | Target OS & Architecture |
 |-------|---------------|--------------------------|
-| `linux-x64` | `x86_64-unknown-linux-gnu` | Linux 64-bit (x86_64) |
+| `linux-x64` | `x86_64-unknown-linux-gnu` | Linux 64-bit (x86\_64) |
 | `linux-arm64` | `aarch64-unknown-linux-gnu` | Linux 64-bit ARM (AArch64) |
-| `win-x64`, `windows-x64` | `x86_64-pc-windows-gnu` | Windows 64-bit (x86_64) |
+| `win-x64`, `windows-x64` | `x86_64-pc-windows-gnu` | Windows 64-bit (x86\_64) |
 | `macos-arm64`, `darwin-arm64` | `arm64-apple-darwin` | macOS Apple Silicon (M1/M2/M3) |
 | `macos-x64`, `darwin-x64` | `x86_64-apple-darwin` | macOS 64-bit Intel |
 

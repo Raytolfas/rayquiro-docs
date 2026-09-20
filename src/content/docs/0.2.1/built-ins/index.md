@@ -1,11 +1,13 @@
 ---
 title: Built-ins & Standard Library
-description: All built-in namespaces, global functions, and standard library utilities available in RayQuiro without importing.
+description: All built-in namespaces, global functions, and standard library
+  utilities available in RayQuiro without importing.
+slug: 0.2.1/built-ins
 ---
 
 RayQuiro provides an extensive standard library and built-in namespaces ready for use out-of-the-box:
 
-- **[Standard Library & Global Functions](/built-ins/standard-library)**: `print`, `assert`, `len`, `str`, `num`, `bool`, `type`, `range`, `push`, `pop`, `map`, `filter`, `reduce`, `sqrt`, `sin`, `cos`, `pow`, `pi`, `sleep`, and more.
+* **[Standard Library & Global Functions](/0.2.1/built-ins/standard-library)**: `print`, `assert`, `len`, `str`, `num`, `bool`, `type`, `range`, `push`, `pop`, `map`, `filter`, `reduce`, `sqrt`, `sin`, `cos`, `pow`, `pi`, `sleep`, and more.
 
 ## Namespaces
 

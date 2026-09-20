@@ -1,0 +1,41 @@
+---
+title: Packages Overview
+description: Community packages, registry, and package creation for RayQuiro.
+slug: 0.2.1/packages
+---
+
+import PackageRegistry from "/src/components/PackageRegistry.astro";
+
+RayQuiro includes a built-in package manager and native distribution system. Packages can be installed globally or locally per-project, hosted on GitHub or published to the official registry (`rq.raytolfas.cc`).
+
+***
+
+## Guides in this Section
+
+* **[Creating Packages](/0.2.1/packages/creating-packages/)** — Step-by-step guide to developing, testing, and structuring reusable libraries.
+* **[Publishing Packages](/0.2.1/packages/publishing/)** — Distributing libraries via GitHub and the official registry.
+* **[rqio.json Reference](/0.2.1/packages/rqio-json/)** — Full schema specification of the project manifest.
+
+***
+
+## Quick Start: Installing Packages
+
+```bash
+# Install from official registry:
+rqio add telebot
+
+# Install directly from GitHub:
+rqio add username/repo
+
+# Install locally into current project (.rqio/packages/):
+rqio add telebot --local
+
+# Restore all dependencies from rqio.json:
+rqio install
+```
+
+***
+
+## Official Registry
+
+<PackageRegistry />

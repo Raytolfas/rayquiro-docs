@@ -1,0 +1,35 @@
+---
+title: RayQuiro
+description: Официальная документация языка программирования RayQuiro.
+template: splash
+hero:
+  tagline: Современный язык программирования для реальных приложений.
+  actions:
+    - text: Быстрый старт
+      link: /getting-started/installation/
+      icon: right-arrow
+      variant: primary
+    - text: GitHub
+      link: https://github.com/raytolfas/rayquiro
+      icon: external
+---
+
+## Обзор
+
+RayQuiro — это компилируемый язык программирования с динамической средой исполнения, поддержкой нативной сборки TinyCC / LLVM, встроенным REPL и модулями для игр, веб-серверов и GUI.
+Работает на Windows и Linux.
+
+```js
+async fn main() {
+    var now = datetime.now();
+    print("RayQuiro " + str(now?.["year"]));
+    print("ID: " + crypto.uuid());
+}
+main();
+```
+
+| Категория | Возможности |
+|-----------|-------------|
+| **Встроенные модули** | `json`, `fs`, `env`, `process`, `datetime`, `path`, `hash`, `crypto`, `http`, `net`, `db`, `os`, `time`, `random` |
+| **Модули приложений** | `rayquiro.engine`, `rayquiro.web`, `rayquiro.ui`, `rayquiro.app` |
+| **Пакетный менеджер** | Управление пакетами и фреймворками через `rqio add` / `rqio install` |

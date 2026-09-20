@@ -1,11 +1,13 @@
 ---
 title: Functions
-description: Comprehensive guide to function definitions, parameters, closures, multiple returns, and recursion in RayQuiro.
+description: Comprehensive guide to function definitions, parameters, closures,
+  multiple returns, and recursion in RayQuiro.
+slug: 0.2.1/language/functions
 ---
 
 Functions are first-class citizens in RayQuiro. They can be stored in variables, passed into other functions as arguments, returned from functions, and executed synchronously or asynchronously.
 
----
+***
 
 ## 1. Defining Functions
 
@@ -22,7 +24,7 @@ print("Sum: " + str(sum)); // 35
 
 If a function completes execution without a `return` statement, it returns `null` implicitly.
 
----
+***
 
 ## 2. Default Parameter Values
 
@@ -38,7 +40,7 @@ print(greet("Alice"));         // "Hello, Alice!"
 print(greet("Bob", "Good day")); // "Good day, Bob!"
 ```
 
----
+***
 
 ## 3. Variadic Arguments (`...rest`)
 
@@ -59,7 +61,7 @@ print(sum_all(1, 2, 3, 4, 5)); // 15
 print(sum_all(10, 20));          // 30
 ```
 
----
+***
 
 ## 4. Multiple Return Values
 
@@ -78,7 +80,7 @@ print("Quotient: " + str(q));   // 3
 print("Remainder: " + str(r));  // 1
 ```
 
----
+***
 
 ## 5. Anonymous Functions and Lambdas
 
@@ -97,7 +99,7 @@ var res = apply_twice(10, fn(x) { return x + 1; });
 print(res); // 12
 ```
 
----
+***
 
 ## 6. Closures and Lexical Scope
 
@@ -120,7 +122,7 @@ print(counter_a()); // 2
 print(counter_b()); // 101
 ```
 
----
+***
 
 ## 7. Recursion
 
@@ -139,7 +141,7 @@ while (k <= 10) {
 }
 ```
 
----
+***
 
 ## 8. Asynchronous Functions (`async fn` & `await`)
 
@@ -158,4 +160,4 @@ async fn main() {
 }
 ```
 
-An `async fn` returns a Promise value that resolves when the function body completes or throws. Calling `await` unwraps the resolved value or throws if an error occurred. For a complete guide, see the [Asynchronous Programming](/language/async) documentation.
+An `async fn` returns a Promise value that resolves when the function body completes or throws. Calling `await` unwraps the resolved value or throws if an error occurred. For a complete guide, see the [Asynchronous Programming](/0.2.1/language/async) documentation.
