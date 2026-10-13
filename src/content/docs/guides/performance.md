@@ -1,4 +1,4 @@
-﻿---
+---
 title: Performance Guide
 description: Understanding execution modes, LLVM optimizations, memory usage, and writing high-performance RayQuiro code.
 ---
@@ -60,13 +60,13 @@ Avoid repeatedly creating temporary arrays inside hot inner loops.
 
 Built-ins like `crypto.*`, `hash.*`, `regex.*`, and `math.*` execute in compiled C/C++ without VM overhead.
 
-### 4. Benchmark with `time.ms()`
+### 4. Benchmark with `time.now_ms()`
 
 Always measure using monotonic timers:
 
 ```js
-var t0 = time.ms();
+var t0 = time.now_ms();
 compute_heavy_algorithm();
-var delta = time.ms() - t0;
+var delta = time.now_ms() - t0;
 print("Computation time: " + str(delta) + " ms");
 ```

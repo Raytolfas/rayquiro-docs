@@ -1,4 +1,4 @@
-﻿---
+---
 title: Types
 description: Complete specification of RayQuiro primitive data types, collections, structs, and coercion rules.
 ---
@@ -59,6 +59,13 @@ var length = len(greeting); // 16
 
 // String Concatenation:
 var full = "Count: " + str(42);
+
+// String Interpolation (f-strings or backticks):
+var user = "Alice";
+var score = 100;
+
+var message1 = f"Player {user} has score {score + 10}!";
+var message2 = `Welcome, ${user}!`;
 ```
 
 ### Type Conversion

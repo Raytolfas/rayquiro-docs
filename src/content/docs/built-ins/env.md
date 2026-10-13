@@ -1,9 +1,9 @@
-﻿---
+---
 title: env
 description: Reading, setting, and inspecting operating system environment variables.
 ---
 
-The `env` namespace provides straightforward access to process environment variables.
+The `env` namespace provides straightforward access to process environment variables. No import is required.
 
 ---
 
@@ -11,25 +11,26 @@ The `env` namespace provides straightforward access to process environment varia
 
 | Function | Signature | Return Type | Description |
 |----------|-----------|-------------|-------------|
-| `env.get` | `env.get(key, default)` | `string \| null` | Retrieves value of an environment variable. |
-| `env.set` | `env.set(key, val)` | `void` | Sets or updates an environment variable. |
+| `env.get` | `env.get(key, default = null)` | `string \| null` | Retrieves value of an environment variable. |
+| `env.set` | `env.set(key, val)` | `bool` | Sets or updates an environment variable. |
 | `env.has` | `env.has(key)` | `bool` | Checks if an environment variable is defined. |
 | `env.all` | `env.all()` | `object` | Returns all environment variables as a key-value map. |
+| `env.path_add` | `env.path_add(dir)` | `bool` | Prepends or appends a directory to system `PATH`. |
 
 ---
 
 ## Detailed Methods
 
-### `env.get(key, default_val = null)`
+### `env.get(key, default = null)`
 
-Retrieves the value of environment variable `key`. If the variable is not set, returns `default_val` (or `null` if not specified):
+Retrieves the value of environment variable `key`:
 
 ```js
 var port = env.get("PORT", "8080");
-var api_key = env.get("API_SECRET");
+var secret = env.get("API_SECRET");
 
-if (api_key == null) {
-    print("Warning: API_SECRET is not configured!");
+if (secret == null) {
+    print("Warning: API_SECRET not set!");
 }
 ```
 
@@ -37,33 +38,29 @@ if (api_key == null) {
 
 ### `env.set(key, val)`
 
-Sets an environment variable for the current process and its spawned children:
+Sets an environment variable for the current process:
 
 ```js
 env.set("APP_ENV", "production");
-print("Mode: " + env.get("APP_ENV")); // "production"
+print("Mode: " + env.get("APP_ENV"));
 ```
 
 ---
 
 ### `env.has(key)`
 
-Returns `true` if the environment variable exists, otherwise `false`:
-
 ```js
-if (env.has("CI")) {
-    print("Running inside Continuous Integration environment.");
+if (env.has("DEBUG")) {
+    print("Debug mode enabled.");
 }
 ```
 
 ---
 
-### `env.all()`
+### `env.path_add(directory)`
 
-Dumps all current environment variables into a RayQuiro object:
+Adds a new directory to the system executable search `PATH`:
 
 ```js
-var vars = env.all();
-print("Home Directory: " + vars["HOME"]);
-print("Current Path: " + vars["PATH"]);
+env.path_add("C:/rayquiro/bin");
 ```

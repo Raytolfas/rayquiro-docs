@@ -1,4 +1,4 @@
-﻿---
+---
 title: rayquiro.engine
 description: Complete 2D and 3D multimedia game engine with Vulkan and Raylib renderers.
 ---
@@ -114,4 +114,32 @@ while (!engine.shouldClose()) {
 }
 
 engine.close();
+```
+
+---
+
+## Audio System (`audio.*`)
+
+RayQuiro includes high-performance audio playback powered by Raylib:
+
+| Function | Signature | Description |
+|---|---|---|
+| `audio.init` | `audio.init()` | Initializes the audio device. |
+| `audio.load_sound` | `audio.load_sound(path)` | Loads a short sound effect into memory. |
+| `audio.play` | `audio.play(sound)` | Plays a loaded sound effect. |
+| `audio.stop` | `audio.stop(sound)` | Stops playing a sound effect. |
+| `audio.set_volume` | `audio.set_volume(sound, vol)` | Sets volume for a sound effect (`0.0` to `1.0`). |
+| `audio.load_music` | `audio.load_music(path)` | Streams a background music track from file. |
+| `audio.play_music` | `audio.play_music(music)` | Starts music streaming. |
+| `audio.update_music` | `audio.update_music(music)` | Updates music stream buffers (call each frame). |
+| `audio.stop_music` | `audio.stop_music(music)` | Stops background music playback. |
+
+```js
+audio.init();
+
+var jumpSound = audio.load_sound("assets/jump.wav");
+audio.play(jumpSound);
+
+var bgm = audio.load_music("assets/theme.ogg");
+audio.play_music(bgm);
 ```

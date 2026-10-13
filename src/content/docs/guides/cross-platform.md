@@ -1,4 +1,4 @@
-﻿---
+---
 title: Cross-Platform Guide
 description: Writing portable RayQuiro applications across Windows, Linux, and macOS.
 ---
@@ -25,14 +25,14 @@ var config_path = path.join(process.cwd(), "config", "settings.json");
 
 ### 2. Platform Detection
 
-Use `os.platform()` and `os.arch()` to conditionally handle platform-specific tasks:
+Use `os.name()` and `os.arch()` to conditionally handle platform-specific tasks:
 
 ```js
-if (os.platform() == "windows") {
+if (os.name() == "windows") {
     print("Running on Windows");
-} else if (os.platform() == "linux") {
+} else if (os.name() == "linux") {
     print("Running on Linux");
-} else if (os.platform() == "macos") {
+} else if (os.name() == "macos") {
     print("Running on macOS");
 }
 ```

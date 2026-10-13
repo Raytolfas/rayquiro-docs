@@ -107,3 +107,16 @@ rqio build server.rq --release --target linux-x64 -o server
 # Debug build for stepping through with a debugger
 rqio build script.rq --debug -o script_debug.exe
 ```
+
+---
+
+## 3. Packaging RayQuiro Binaries (`rqio pack`)
+
+For custom operating systems and lightweight runtime distributions, RayQuiro supports packaging applications into `.rqb` bytecode bundles:
+
+```bash
+rqio pack main.rq -o app.rqb
+```
+
+- Produces a compact standalone binary package with the `RQB1` header.
+- Can be executed directly with `rqio run app.rqb` or registered with Linux `binfmt_misc` for native OS execution.

@@ -1,4 +1,4 @@
-﻿---
+---
 title: Control Flow
 description: Conditionals, while loops, for-in iteration, break, and continue in RayQuiro.
 ---
@@ -87,4 +87,29 @@ while (idx < len(fruits)) {
     print("Fruit #" + str(idx + 1) + ": " + item);
     idx = idx + 1;
 }
+
+---
+
+## 5. Pattern Matching (`match`)
+
+RayQuiro 0.2.2 includes first-class pattern matching without fallthrough:
+
+```js
+var status = 200;
+
+match status {
+    200 => print("OK"),
+    400 => print("Bad Request"),
+    404 => print("Not Found"),
+    500 => {
+        print("Internal Server Error");
+        log_error("Server down");
+    },
+    _ => print("Unknown Status Code")
+}
+```
+
+- Each pattern is evaluated in order; the first match executes and terminates the `match` construct immediately (no `break` needed).
+- Use `_` (wildcard) or `default` to handle fallback cases.
+- Both single statement expressions and `{ ... }` code blocks are supported on the right side of `=>`.
 ```

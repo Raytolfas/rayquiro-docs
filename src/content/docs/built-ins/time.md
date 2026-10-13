@@ -1,9 +1,9 @@
-﻿---
+---
 title: time
-description: Delays, pauses, timers, and performance benchmarking.
+description: Delays, pauses, timers, monotonic clock, and performance benchmarking.
 ---
 
-The `time` namespace provides timing primitives and thread sleeping.
+The `time` namespace provides timing primitives and thread sleeping. No import is required.
 
 ---
 
@@ -11,8 +11,9 @@ The `time` namespace provides timing primitives and thread sleeping.
 
 | Function | Signature | Return Type | Description |
 |----------|-----------|-------------|-------------|
-| `time.sleep` | `time.sleep(ms)` | `void` | Pauses execution for the specified milliseconds. |
-| `time.ms` | `time.ms()` | `number` | Returns monotonic system milliseconds counter. |
+| `time.sleep` | `time.sleep(ms)` | `void` | Pauses execution for the specified milliseconds (alias: `sleep(ms)`). |
+| `time.now_ms` | `time.now_ms()` | `number` | Returns high-precision monotonic clock in milliseconds (alias: `clock.ms()`). |
+| `time.unix_ms` | `time.unix_ms()` | `number` | Returns current Unix epoch time in milliseconds. |
 
 ---
 
@@ -27,25 +28,24 @@ print("Starting countdown...");
 var i = 3;
 while (i > 0) {
     print(str(i) + "...");
-    time.sleep(1000); // 1 second
+    time.sleep(1000);
     i = i - 1;
 }
-print("Liftoff!");
+print("Launch!");
 ```
 
 ---
 
-### `time.ms()`
+### `time.now_ms()`
 
-Returns the high-resolution monotonic time in milliseconds since system boot. Unaffected by system clock changes or daylight saving adjustments, making it ideal for games, animations, and benchmarking:
+Returns the high-resolution monotonic time in milliseconds since system boot. Unaffected by system clock changes or daylight saving adjustments:
 
 ```js
-var start_ms = time.ms();
+var start_ms = time.now_ms();
 
-// Perform operations
 var i = 0;
 while (i < 500000) { i = i + 1; }
 
-var duration = time.ms() - start_ms;
+var duration = time.now_ms() - start_ms;
 print("Execution time: " + str(duration) + " ms");
 ```

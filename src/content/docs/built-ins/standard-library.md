@@ -114,3 +114,25 @@ print("Waiting 500ms...");
 sleep(500);
 print("Done!");
 ```
+
+---
+
+## 6. Assertions & Testing
+
+RayQuiro 0.2.2 includes built-in assertion primitives for automated testing:
+
+| Function | Signature | Description |
+|---|---|---|
+| `assert` | `assert(cond, [msg])` | Throws runtime error if condition evaluates to falsy. |
+| `assert_eq` | `assert_eq(actual, expected, [msg])` | Asserts equality between two values. |
+| `assert_ne` | `assert_ne(actual, expected, [msg])` | Asserts inequality between two values. |
+| `assert_true` | `assert_true(val, [msg])` | Asserts that `val` is `true`. |
+| `assert_false` | `assert_false(val, [msg])` | Asserts that `val` is `false`. |
+| `assert_null` | `assert_null(val, [msg])` | Asserts that `val` is `null`. |
+
+```js
+assert_eq(2 + 2, 4);
+assert_ne("apple", "orange");
+assert_true(len([1, 2, 3]) == 3);
+```
+

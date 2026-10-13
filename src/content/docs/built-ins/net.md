@@ -1,9 +1,9 @@
-﻿---
+---
 title: net
-description: Low-level TCP and UDP client and server socket communication.
+description: Low-level cross-platform TCP socket communication in RayQuiro.
 ---
 
-The `net` namespace provides primitives for building custom network servers and clients using standard BSD-style sockets.
+The `net` namespace provides low-level TCP client socket primitives. No import is required.
 
 ---
 
@@ -11,42 +11,27 @@ The `net` namespace provides primitives for building custom network servers and 
 
 | Function | Signature | Return Type | Description |
 |----------|-----------|-------------|-------------|
-| `net.connect` | `net.connect(host, port)` | `socket` | Connects to a remote TCP server. |
-| `net.listen` | `net.listen(port, on_conn)` | `server` | Binds and listens for incoming TCP connections. |
-| `socket.send` | `socket.send(data)` | `number` | Sends string or bytes over the socket. |
-| `socket.recv` | `socket.recv(max_bytes)` | `string` | Receives data from the socket. |
-| `socket.close` | `socket.close()` | `void` | Closes the connection. |
+| `net.tcp_connect` | `net.tcp_connect(host, port)` | `number` | Connects to a remote TCP server. Returns numeric socket handle (or `0` on error). |
+| `net.tcp_send` | `net.tcp_send(handle, data)` | `bool` | Sends string data over the TCP socket. Returns `true` on success. |
+| `net.tcp_recv` | `net.tcp_recv(handle, max_bytes)` | `string` | Receives incoming string data up to `max_bytes`. |
+| `net.tcp_close` | `net.tcp_close(handle)` | `bool` | Closes the open TCP socket. |
 
 ---
 
-## Examples
-
-### Connecting to a TCP Server
+## Complete Example
 
 ```js
-var sock = net.connect("echo.websocket.events", 80);
+var sock = net.tcp_connect("127.0.0.1", 8080);
 
-sock.send("GET / HTTP/1.1\r\nHost: echo.websocket.events\r\n\r\n");
-var response = sock.recv(1024);
+if (sock != 0) {
+    var httpRequest = "GET / HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n";
+    net.tcp_send(sock, httpRequest);
 
-print("Received:\n" + response);
-sock.close();
-```
+    var response = net.tcp_recv(sock, 4096);
+    print("Received response:\n" + response);
 
----
-
-### Simple TCP Echo Server
-
-```js
-var server = net.listen(9000, fn(client) {
-    print("New connection established!");
-    
-    var data = client.recv(1024);
-    while (len(data) > 0) {
-        client.send("ECHO: " + data);
-        data = client.recv(1024);
-    }
-    
-    client.close();
-});
+    net.tcp_close(sock);
+} else {
+    print("Connection failed!");
+}
 ```
