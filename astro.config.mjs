@@ -17,6 +17,29 @@ export default defineConfig({
       description: "RayQuiro programming language official documentation",
       logo: { src: "./src/assets/logo.png", replacesTitle: false },
       favicon: "/favicon.ico",
+      head: [
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: "/meta-banner.png",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:image",
+            content: "/meta-banner.png",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:card",
+            content: "summary_large_image",
+          },
+        },
+      ],
       social: [
         { icon: "github", label: "GitHub", href: "https://github.com/raytolfas/rayquiro" },
       ],
