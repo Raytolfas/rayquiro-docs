@@ -5,7 +5,7 @@ description: Complete reference of all global functions, math built-ins, and
 slug: 0.2.1/built-ins/standard-library
 ---
 
-RayQuiro includes a comprehensive suite of built-in functions that are globally accessible from any script without needing an `import` statement.
+RayQuiro includes built-in functions that are globally accessible from any script without needing an `import` statement.
 
 ***
 
@@ -18,10 +18,10 @@ RayQuiro includes a comprehensive suite of built-in functions that are globally 
 | `type` | `type(value)` | Returns the type name: `"number"`, `"string"`, `"bool"`, `"array"`, `"object"`, `"function"`, or `"null"`. |
 
 ```js
-print("Hello", 42, true); // Hello 42 true
+print("Hello", 42, true);
 assert(2 + 2 == 4, "Math error!");
-print(type("text")); // "string"
-print(type([1, 2])); // "array"
+print(type("text"));
+print(type([1, 2]));
 ```
 
 ***
@@ -38,7 +38,7 @@ print(type([1, 2])); // "array"
 ```js
 var n = num("3.1415");
 var s = str(100);
-var b = bool(1); // true
+var b = bool(1);
 ```
 
 ***
@@ -61,16 +61,16 @@ var b = bool(1); // true
 | `reduce` | `reduce(array, fn, initial)` | Reduces `array` to a single value using accumulator `fn(acc, item)`. |
 
 ```js
-var nums = range(1, 5); // [1, 2, 3, 4]
-push(nums, 5);          // [1, 2, 3, 4, 5]
-var last = pop(nums);   // 5
+var nums = range(1, 5);
+push(nums, 5);
+var last = pop(nums);
 
 var doubled = map(nums, fn(x) { return x * 2; });
 var evens = filter(nums, fn(x) { return x % 2 == 0; });
 var sum = reduce(nums, fn(acc, x) { return acc + x; }, 0);
 
 var words = split("rayquiro is fast", " ");
-var sentence = join(words, "-"); // "rayquiro-is-fast"
+var sentence = join(words, "-");
 ```
 
 ***
@@ -97,10 +97,10 @@ RayQuiro includes high-precision mathematical operations accessible directly:
 | `pi` | `pi` | Mathematical constant $\pi$ ($3.141592653589793$). |
 
 ```js
-print(sqrt(16));       // 4
-print(pow(2, 8));      // 256
-print(clamp(15, 0, 10)); // 10
-print(cos(pi));        // -1
+print(sqrt(16));
+print(pow(2, 8));
+print(clamp(15, 0, 10));
+print(cos(pi));
 ```
 
 ***

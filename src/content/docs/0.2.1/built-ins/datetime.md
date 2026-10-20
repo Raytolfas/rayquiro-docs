@@ -46,7 +46,6 @@ Returns high-precision Unix timestamp in seconds (with fractional sub-second pre
 ```js
 var start = datetime.timestamp();
 
-// Run heavy computation
 var sum = 0;
 var i = 0;
 while (i < 100000) {
@@ -76,5 +75,5 @@ Formats a timestamp into a custom string representation:
 ```js
 var ts = datetime.timestamp();
 var date_str = datetime.format(ts, "%Y-%m-%d %H:%M:%S");
-print("Current time: " + date_str); // "2026-09-12 14:35:02"
+print("Current time: " + date_str);
 ```

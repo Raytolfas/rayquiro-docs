@@ -1,6 +1,6 @@
 ---
 title: Functions
-description: Comprehensive guide to function definitions, parameters, closures, multiple returns, and recursion in RayQuiro.
+description: Reference for function definitions, parameters, closures, multiple returns, and recursion in RayQuiro.
 ---
 
 Functions are first-class citizens in RayQuiro. They can be stored in variables, passed into other functions as arguments, returned from functions, and executed synchronously or asynchronously.
@@ -17,7 +17,7 @@ fn add(a, b) {
 }
 
 var sum = add(10, 25);
-print("Sum: " + str(sum)); // 35
+print("Sum: " + str(sum));
 ```
 
 If a function completes execution without a `return` statement, it returns `null` implicitly.
@@ -33,9 +33,9 @@ fn greet(name = "World", prefix = "Hello") {
     return prefix + ", " + name + "!";
 }
 
-print(greet());                // "Hello, World!"
-print(greet("Alice"));         // "Hello, Alice!"
-print(greet("Bob", "Good day")); // "Good day, Bob!"
+print(greet());
+print(greet("Alice"));
+print(greet("Bob", "Good day"));
 ```
 
 ---
@@ -55,8 +55,8 @@ fn sum_all(...numbers) {
     return total;
 }
 
-print(sum_all(1, 2, 3, 4, 5)); // 15
-print(sum_all(10, 20));          // 30
+print(sum_all(1, 2, 3, 4, 5));
+print(sum_all(10, 20));
 ```
 
 ---
@@ -72,10 +72,9 @@ fn divmod(dividend, divisor) {
     return quotient, remainder;
 }
 
-// Array destructuring assignment:
 var [q, r] = divmod(10, 3);
-print("Quotient: " + str(q));   // 3
-print("Remainder: " + str(r));  // 1
+print("Quotient: " + str(q));
+print("Remainder: " + str(r));
 ```
 
 ---
@@ -90,11 +89,10 @@ fn apply_twice(val, operation) {
 }
 
 var double = fn(x) { return x * 2; };
-print(apply_twice(5, double)); // 20
+print(apply_twice(5, double));
 
-// Inline lambda:
 var res = apply_twice(10, fn(x) { return x + 1; });
-print(res); // 12
+print(res);
 ```
 
 ---
@@ -115,9 +113,9 @@ fn create_counter(start_value = 0) {
 var counter_a = create_counter(0);
 var counter_b = create_counter(100);
 
-print(counter_a()); // 1
-print(counter_a()); // 2
-print(counter_b()); // 101
+print(counter_a());
+print(counter_a());
+print(counter_b());
 ```
 
 ---
@@ -143,7 +141,7 @@ while (k <= 10) {
 
 ## 8. Asynchronous Functions (`async fn` & `await`)
 
-RayQuiro has first-class asynchronous programming using the `async` and `await` keywords:
+RayQuiro has asynchronous programming using the `async` and `await` keywords:
 
 ```js
 async fn fetch_user_data(user_id) {

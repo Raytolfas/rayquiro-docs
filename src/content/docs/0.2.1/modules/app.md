@@ -63,7 +63,7 @@ while (window.isOpen()) {
         window.setTitle("System Monitor - Uptime: " + str(frame_count / 60) + "s");
     }
 
-    time.sleep(16); // ~60 FPS
+    time.sleep(16);
 }
 
 print("Application closed gracefully.");

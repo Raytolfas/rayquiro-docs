@@ -48,7 +48,6 @@ fn process_transaction() {
     try {
         db_conn.exec("BEGIN TRANSACTION;");
         db_conn.exec("INSERT INTO logs VALUES ('started');");
-        // risky code
         db_conn.exec("COMMIT;");
     } catch (e) {
         db_conn.exec("ROLLBACK;");

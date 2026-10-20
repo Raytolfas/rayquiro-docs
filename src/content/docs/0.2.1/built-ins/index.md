@@ -5,7 +5,7 @@ description: All built-in namespaces, global functions, and standard library
 slug: 0.2.1/built-ins
 ---
 
-RayQuiro provides an extensive standard library and built-in namespaces ready for use out-of-the-box:
+RayQuiro provides a standard library and built-in global namespaces:
 
 * **[Standard Library & Global Functions](/0.2.1/built-ins/standard-library)**: `print`, `assert`, `len`, `str`, `num`, `bool`, `type`, `range`, `push`, `pop`, `map`, `filter`, `reduce`, `sqrt`, `sin`, `cos`, `pow`, `pi`, `sleep`, and more.
 

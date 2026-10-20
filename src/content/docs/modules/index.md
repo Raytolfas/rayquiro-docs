@@ -1,6 +1,6 @@
 ---
 title: Modules System
-description: Comprehensive guide to RayQuiro modules, imports, native extensions, and standard namespaces.
+description: Reference for RayQuiro modules, imports, native extensions, and standard namespaces.
 ---
 
 RayQuiro features a modular, high-performance module architecture designed to combine the simplicity of dynamic scripting with the power and zero-dependency portability of native C/C++ runtimes.
@@ -91,7 +91,7 @@ Manages desktop windows, event queues, OS message pumps, and native window confi
 - [Read full `rayquiro.app` documentation →](/modules/app/)
 
 ### 2. `rayquiro.ui` — Styling, Theming & Design System
-Provides styling presets, themes, CSS stylesheet parsing, and color manipulation. It works seamlessly alongside `rayquiro.app` or game engines.
+Provides styling presets, themes, CSS stylesheet parsing, and color manipulation. It works alongside `rayquiro.app` or game engines.
 - Built-in themes: Dark, Light, Nord, Dracula, Cyberpunk, Midnight.
 - Color algorithms: `rgb`, `rgba`, `hex`, `blend`, `lighten`, `darken`, `alpha`.
 - Component styles: `button_style`, `card_style`, `text_style`, `badge_style`, `input_style`.
@@ -140,14 +140,12 @@ A common question when developing desktop applications in RayQuiro is the role s
 import "rayquiro.app";
 import "rayquiro.ui";
 
-// 1. Choose a design theme from rayquiro.ui
 var theme = ui.theme("nord");
 var btnStyle = ui.button_style("primary", {
     "background": theme["primary"],
     "radius": 12
 });
 
-// 2. Open native window with rayquiro.app
 var win = app.window({
     title: "Themed Application",
     width: 800,
@@ -183,7 +181,7 @@ The standard namespaces do not need an `import` declaration; they are automatica
 
 ---
 
-## 6. Under the Hood: Native ABI & Static Linking
+## 6. Native ABI & Static Linking
 
 When you distribute a RayQuiro application or run it with `rqio run` or compile it with `rqio build --release`:
 1. **Zero External DLL Hell**: All C++ framework modules are built directly into the RayQuiro core. You do not need to ship separate C libraries or configure `LD_LIBRARY_PATH` / Windows `PATH`.

@@ -42,7 +42,7 @@ Sets an environment variable for the current process and its spawned children:
 
 ```js
 env.set("APP_ENV", "production");
-print("Mode: " + env.get("APP_ENV")); // "production"
+print("Mode: " + env.get("APP_ENV"));
 ```
 
 ***

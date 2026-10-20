@@ -25,11 +25,9 @@ The `db` namespace provides relational database connectivity (PostgreSQL / SQLit
 var conn = db.connect("host=localhost port=5432 dbname=app user=postgres password=secret");
 
 if (conn != 0) {
-    // 1. Execute DDL / modification statements
     db.exec(conn, "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name TEXT, score INT);");
     db.exec(conn, "INSERT INTO users (name, score) VALUES ('Alice', 100);");
 
-    // 2. Query rows
     var rows = db.query(conn, "SELECT id, name, score FROM users ORDER BY score DESC;");
     var i = 0;
     while (i < len(rows)) {
@@ -38,11 +36,9 @@ if (conn != 0) {
         i = i + 1;
     }
 
-    // 3. Scalar single-value query
     var total = db.scalar(conn, "SELECT COUNT(*) FROM users;");
     print("Total users: " + str(total));
 
-    // 4. Safely close connection
     db.close(conn);
 } else {
     print("Failed to connect to database");

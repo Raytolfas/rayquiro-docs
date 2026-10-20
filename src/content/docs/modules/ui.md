@@ -33,12 +33,10 @@ RayQuiro includes built-in design themes ready for instant usage:
 ```rq
 import "rayquiro.ui";
 
-// Access by name
 var nord = ui.theme("nord");
-print(nord["background"]); // "#2e3440"
-print(nord["primary"]);    // "#88c0d0"
+print(nord["background"]);
+print(nord["primary"]);
 
-// Or use shorthand theme functions
 var dark = ui.dark();
 var light = ui.light();
 var dracula = ui.dracula();
@@ -84,8 +82,8 @@ var myBrandTheme = ui.create_theme({
     "font": "Fira Code"
 });
 
-print(myBrandTheme["primary"]); // "#ff4400"
-print(myBrandTheme["background"]); // "#18181b" (inherited from dark)
+print(myBrandTheme["primary"]);
+print(myBrandTheme["background"]);
 ```
 
 ---
@@ -97,8 +95,8 @@ The `rayquiro.ui` module provides utilities for calculating dynamic colors, hove
 ### `ui.rgb` and `ui.rgba`
 
 ```rq
-var orange = ui.rgb(255, 128, 0);       // "#ff8000"
-var translucent = ui.rgba(0, 0, 0, 0.5); // "rgba(0, 0, 0, 0.5)"
+var orange = ui.rgb(255, 128, 0);
+var translucent = ui.rgba(0, 0, 0, 0.5);
 ```
 
 ### `ui.blend`
@@ -106,7 +104,7 @@ var translucent = ui.rgba(0, 0, 0, 0.5); // "rgba(0, 0, 0, 0.5)"
 Linearly blends two colors by a factor from `0.0` (100% color 1) to `1.0` (100% color 2):
 
 ```rq
-var gray = ui.blend("#000000", "#ffffff", 0.5); // "#7f7f7f"
+var gray = ui.blend("#000000", "#ffffff", 0.5);
 var softRed = ui.blend("#ffffff", "#ff0000", 0.2);
 ```
 
@@ -116,8 +114,8 @@ Calculates lighter or darker tints for hover, active, or disabled states:
 
 ```rq
 var baseColor = "#3b82f6";
-var hoverColor = ui.lighten(baseColor, 0.15); // 15% lighter
-var pressedColor = ui.darken(baseColor, 0.15); // 15% darker
+var hoverColor = ui.lighten(baseColor, 0.15);
+var pressedColor = ui.darken(baseColor, 0.15);
 ```
 
 ### `ui.alpha`
@@ -125,7 +123,7 @@ var pressedColor = ui.darken(baseColor, 0.15); // 15% darker
 Extracts the RGB channels from a hex color and applies an opacity level:
 
 ```rq
-var transparentPrimary = ui.alpha("#3b82f6", 0.2); // "rgba(59, 130, 246, 0.2)"
+var transparentPrimary = ui.alpha("#3b82f6", 0.2);
 ```
 
 ---
@@ -142,10 +140,9 @@ Supported variants: `"primary"`, `"secondary"`, `"danger"`, `"success"`, `"ghost
 import "rayquiro.ui";
 
 var dangerBtn = ui.button_style("danger");
-print(dangerBtn["background"]); // "#ef4444"
-print(dangerBtn["foreground"]); // "#ffffff"
+print(dangerBtn["background"]);
+print(dangerBtn["foreground"]);
 
-// Override defaults with custom options
 var customBtn = ui.button_style("primary", {
     "radius": 20,
     "padding": "10px 24px"
@@ -168,11 +165,11 @@ Supported roles: `"title"`, `"subtitle"`, `"body"`, `"caption"`, `"code"`.
 
 ```rq
 var title = ui.text_style("title");
-print(title["size"]);   // 28
-print(title["weight"]); // "bold"
+print(title["size"]);
+print(title["weight"]);
 
 var code = ui.text_style("code");
-print(code["font"]);    // "Consolas"
+print(code["font"]);
 ```
 
 ### Badges & Form Inputs
@@ -206,8 +203,8 @@ var css = "
 ";
 
 var sheet = ui.parse(css);
-print(sheet[".btn-submit"]["background"]); // "#3b82f6"
-print(sheet[".card"]["padding"]);           // "16px"
+print(sheet[".btn-submit"]["background"]);
+print(sheet[".card"]["padding"]);
 ```
 
 ### Stringifying Objects to CSS (`ui.stringify`)
@@ -234,12 +231,10 @@ Here is an example combining `rayquiro.ui` for styling and `rayquiro.app` for na
 import "rayquiro.app";
 import "rayquiro.ui";
 
-// 1. Configure visual design using rayquiro.ui
 var theme = ui.theme("midnight");
 var headerText = ui.text_style("title", { "color": theme["primary"] });
 var actionBtn = ui.button_style("primary", { "background": theme["primary"] });
 
-// 2. Instantiate native desktop window using rayquiro.app
 var win = app.window({
     title: "Themed Application Shell",
     width: 900,
@@ -251,7 +246,6 @@ print("Active Theme: " + theme["name"]);
 print("Window Title Color: " + headerText["color"]);
 print("Button Accent: " + actionBtn["background"]);
 
-// 3. Application main loop
 while (win.isOpen()) {
     win.pollEvents();
 }

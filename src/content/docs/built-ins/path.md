@@ -29,7 +29,7 @@ Joins multiple path components safely using appropriate platform separators (`/`
 
 ```js
 var full = path.join("data", "users", "profile.json");
-print(full); // "data/users/profile.json" (Linux) or "data\\users\\profile.json" (Windows)
+print(full);
 ```
 
 ---
@@ -39,8 +39,8 @@ print(full); // "data/users/profile.json" (Linux) or "data\\users\\profile.json"
 Returns the last element of the path.
 
 ```js
-print(path.basename("/home/user/project/main.rq")); // "main.rq"
-print(path.basename("C:\\projects\\app.exe"));       // "app.exe"
+print(path.basename("/home/user/project/main.rq"));
+print(path.basename("C:\\projects\\app.exe"));
 ```
 
 ---
@@ -50,7 +50,7 @@ print(path.basename("C:\\projects\\app.exe"));       // "app.exe"
 Returns the directory path excluding the final file/folder component.
 
 ```js
-print(path.dirname("/var/log/nginx/access.log")); // "/var/log/nginx"
+print(path.dirname("/var/log/nginx/access.log"));
 ```
 
 ---
@@ -60,9 +60,9 @@ print(path.dirname("/var/log/nginx/access.log")); // "/var/log/nginx"
 Returns the file extension.
 
 ```js
-print(path.ext("archive.tar.gz")); // ".gz"
-print(path.ext("document.pdf"));    // ".pdf"
-print(path.ext("Makefile"));        // ""
+print(path.ext("archive.tar.gz"));
+print(path.ext("document.pdf"));
+print(path.ext("Makefile"));
 ```
 
 ---
@@ -72,8 +72,8 @@ print(path.ext("Makefile"));        // ""
 Returns the filename without its trailing extension.
 
 ```js
-print(path.stem("archive.zip")); // "archive"
-print(path.stem("game.exe"));    // "game"
+print(path.stem("archive.zip"));
+print(path.stem("game.exe"));
 ```
 
 ---
@@ -83,7 +83,7 @@ print(path.stem("game.exe"));    // "game"
 Checks whether the given path is absolute.
 
 ```js
-print(path.is_abs("/usr/bin"));      // true (Linux/macOS)
-print(path.is_abs("C:\\Windows"));   // true (Windows)
-print(path.is_abs("src/main.rq"));   // false
+print(path.is_abs("/usr/bin"));
+print(path.is_abs("C:\\Windows"));
+print(path.is_abs("src/main.rq"));
 ```

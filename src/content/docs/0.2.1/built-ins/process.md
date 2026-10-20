@@ -32,7 +32,6 @@ rqio run cli_tool.rq --input data.txt --verbose
 ```
 
 ```js
-// cli_tool.rq
 var args = process.args();
 print("Total arguments: " + str(len(args)));
 

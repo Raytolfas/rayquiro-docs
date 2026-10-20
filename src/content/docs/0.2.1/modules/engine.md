@@ -45,18 +45,18 @@ import "rayquiro.engine";
 ### Keyboard Input
 
 ```js
-if (engine.isKeyDown(262)) { // KEY_RIGHT
+if (engine.isKeyDown(262)) {
     player_x = player_x + speed * dt;
 }
-if (engine.isKeyPressed(32)) { // KEY_SPACE
-    player_vy = -350.0; // Jump
+if (engine.isKeyPressed(32)) {
+    player_vy = -350.0;
 }
 ```
 
 ### Mouse Input
 
 ```js
-var mouse_pos = engine.getMousePosition(); // returns {x: ..., y: ...}
+var mouse_pos = engine.getMousePosition();
 var left_clicked = engine.isMouseButtonPressed(0);
 ```
 
@@ -65,18 +65,16 @@ var left_clicked = engine.isMouseButtonPressed(0);
 ## 4. Audio & Textures
 
 ```js
-// Textures
 var sprite = engine.loadTexture("assets/player.png");
 engine.drawTexture(sprite, 100, 150);
-engine.drawTextureEx(sprite, 100, 150, 45.0, 2.0); // angle, scale
+engine.drawTextureEx(sprite, 100, 150, 45.0, 2.0);
 
-// Audio
 var jump_sfx = engine.loadSound("assets/jump.wav");
 engine.playSound(jump_sfx);
 
 var bgm = engine.loadMusic("assets/theme.ogg");
 engine.playMusic(bgm);
-engine.updateMusic(bgm); // call once per frame in your loop
+engine.updateMusic(bgm);
 ```
 
 ***
@@ -97,14 +95,12 @@ var speed_y = 200.0;
 while (!engine.shouldClose()) {
     var dt = engine.getFrameTime();
 
-    // Physics
     ball_x = ball_x + speed_x * dt;
     ball_y = ball_y + speed_y * dt;
 
     if (ball_x < 10 || ball_x > 790) { speed_x = -speed_x; }
     if (ball_y < 10 || ball_y > 590) { speed_y = -speed_y; }
 
-    // Render
     engine.beginDraw();
     engine.clear(20, 24, 32);
 

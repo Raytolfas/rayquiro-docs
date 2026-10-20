@@ -22,17 +22,13 @@ The `db` namespace provides lightweight, zero-configuration embedded relational 
 ## Complete Example
 
 ```js
-// Open or create database file (use ":memory:" for in-memory DB)
 var conn = db.open("app.db");
 
-// Create schema
 conn.exec("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, score INTEGER);");
 
-// Insert rows with parameter bindings (prevents SQL injection)
 conn.exec("INSERT INTO users (name, score) VALUES ('Alice', 120);");
 conn.exec("INSERT INTO users (name, score) VALUES ('Bob', 95);");
 
-// Query rows
 var rows = conn.query("SELECT * FROM users WHERE score > ? ORDER BY score DESC;", [100]);
 
 var i = 0;

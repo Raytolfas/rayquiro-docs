@@ -34,10 +34,13 @@ rqio repl
 rqio           # Running rqio without arguments in a non-project folder also opens REPL
 ```
 
-In the REPL, you can type expressions, test built-in packages, define functions, and inspect values interactively:
+RayQuiro 1.0 features an enhanced console REPL with full line-editing capabilities:
+- **Up / Down arrows (↑ / ↓)**: browse command history
+- **Left / Right arrows (← / →)**: move the cursor and edit text in-place
+- **Backspace & Home/End**: precise in-line text editing
 
 ```text
-RayQuiro 0.2.1 REPL
+RayQuiro 1.0 REPL
 Type "exit" or press Ctrl+C to quit.
 
 >>> var x = random.int(1, 100)
@@ -61,7 +64,7 @@ rqio build <file.rq> [-o output] [flags...]
 
 ### Supported Compilers
 
-RayQuiro 0.2.1 includes autonomous compiler support:
+RayQuiro 1.0 includes autonomous compiler support:
 1. **TinyCC (TCC)**: Bundled directly with RayQuiro (`tools/tcc/` on Windows, system `tcc` on Linux). Enables fast, zero-dependency autonomous native compilation without requiring Clang, LLVM, or GCC installed on the machine.
 2. **LLVM / Clang**: For aggressive compiler optimizations and cross-compilation.
 
@@ -74,7 +77,7 @@ RayQuiro 0.2.1 includes autonomous compiler support:
 | `--llvm` | Clang / LLVM | Compiles via LLVM Clang |
 | `--release` | Maximum performance | Enables `-O3` LLVM optimization passes (falls back to TCC if Clang is unavailable) |
 | `--debug` | Debug build | Generates `-O0 -g` debug symbols for GDB / LLDB / VS Code |
-| `--target <triple>` | Cross-compilation target | Target architecture and OS (e.g. `linux-x64`, `win-x64`, `macos-arm64`) |
+| `--target <triple>` | Cross-compilation target | Target architecture and OS (e.g. `linux-x64`, `win-x64`, `wasm32-wasi`) |
 | `--no-llvm` | GCC fallback | Forces compilation using GCC instead of LLVM/Clang |
 
 ### Target Aliases
@@ -88,6 +91,7 @@ The `--target` flag supports shorthand aliases as well as standard LLVM target t
 | `win-x64`, `windows-x64` | `x86_64-pc-windows-gnu` | Windows 64-bit (x86_64) |
 | `macos-arm64`, `darwin-arm64` | `arm64-apple-darwin` | macOS Apple Silicon (M1/M2/M3) |
 | `macos-x64`, `darwin-x64` | `x86_64-apple-darwin` | macOS 64-bit Intel |
+| `wasm`, `wasm32`, `wasm32-wasi` | `wasm32-wasi` | WebAssembly (WASI) bytecode `.wasm` |
 
 ### Examples
 

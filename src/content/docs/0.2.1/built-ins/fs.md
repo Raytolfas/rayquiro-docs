@@ -5,7 +5,7 @@ description: File system operations, file reading, writing, directory
 slug: 0.2.1/built-ins/fs
 ---
 
-The `fs` namespace provides comprehensive synchronous file system operations. No import is required.
+The `fs` namespace provides synchronous file system operations. No import is required.
 
 ***
 

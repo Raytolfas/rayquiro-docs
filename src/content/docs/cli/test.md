@@ -26,11 +26,9 @@ You can write tests with assertions directly in your script:
 var name = "RayQuiro";
 var ver = 2;
 
-// String interpolation
 var banner = f"{name} v0.{ver}";
 assert_eq(banner, "RayQuiro v0.2");
 
-// Pattern matching
 var status = 200;
 var statusText = "";
 match status {
@@ -40,7 +38,6 @@ match status {
 }
 assert_eq(statusText, "OK");
 
-// General assertions
 assert(10 > 5, "Math check failed");
 assert_true(true);
 assert_false(false);

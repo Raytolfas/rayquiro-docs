@@ -1,4 +1,4 @@
-﻿---
+---
 title: Formatting, Debugging & Utility CLI
 description: Reference for rqio fmt, debug (DAP server), self-update, and version commands.
 ---
@@ -57,11 +57,35 @@ rqio self-update
 
 ---
 
-## 4. Version & Help
+## 4. Syntax & AST Validation (`rqio check`)
+
+Verify syntax and build AST without executing the code:
+
+```bash
+rqio check main.rq
+```
+
+Outputs `[PASS] main.rq syntax and AST validated successfully.` or prints parse errors with file, line, and column info.
+
+---
+
+## 5. Built-in C Compiler Toolchain (`rqio cc`)
+
+RayQuiro 1.0 bundles an integrated TinyCC compiler toolchain, allowing you to compile C files or link native code directly without installing external compilers:
+
+```bash
+rqio cc main.c -o app.exe
+rqio cc -v
+```
+
+---
+
+## 6. Version & Help
 
 ```bash
 # Print current version:
 rqio version
+# or: rqio --version
 
 # Print interactive help menu:
 rqio help

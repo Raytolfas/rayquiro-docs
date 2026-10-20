@@ -4,7 +4,7 @@ description: Built-in package for pseudo-random number generation, sampling, and
 slug: 0.2.1/built-ins/random
 ---
 
-The `random` package provides high-performance pseudo-random number generation functions. It is available globally out-of-the-box without requiring any `import` statement.
+The `random` package provides pseudo-random number generation functions. It is available globally without an `import` statement.
 
 ## API Reference
 

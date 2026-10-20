@@ -3,7 +3,7 @@ title: Built-ins & Standard Library
 description: All built-in namespaces, global functions, and standard library utilities available in RayQuiro without importing.
 ---
 
-RayQuiro provides an extensive standard library and built-in namespaces ready for use out-of-the-box:
+RayQuiro provides a standard library and built-in global namespaces:
 
 - **[Standard Library & Global Functions](/built-ins/standard-library)**: `print`, `assert`, `len`, `str`, `num`, `bool`, `type`, `range`, `push`, `pop`, `map`, `filter`, `reduce`, `sqrt`, `sin`, `cos`, `pow`, `pi`, `sleep`, and more.
 
@@ -26,3 +26,8 @@ RayQuiro provides an extensive standard library and built-in namespaces ready fo
 | `os` | Platform, arch, hostname |
 | `time` | Sleep, millisecond timer |
 | `random` | Pseudo-random numbers, choices, shuffling |
+| `ffi` | Dynamic C-ABI library loading and function calls (.dll, .so) |
+| `buffer` | Raw contiguous byte buffers for memory manipulation |
+| `struct` | C-ABI binary struct packing, unpacking, and alignment |
+
+

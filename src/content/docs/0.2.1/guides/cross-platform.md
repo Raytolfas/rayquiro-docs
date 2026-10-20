@@ -15,11 +15,8 @@ RayQuiro was engineered from the ground up for strict cross-platform compatibili
 Never hardcode path separators (`\\` or `/`). Always use `path.join`:
 
 ```js
-// Cross-platform:
 var config_path = path.join(process.cwd(), "config", "settings.json");
 
-// Avoid:
-// var bad_path = "config\\settings.json";
 ```
 
 ***

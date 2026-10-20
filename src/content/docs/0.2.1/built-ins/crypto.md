@@ -33,7 +33,6 @@ Generates a cryptographically strong UUID version 4:
 ```js
 var id = crypto.uuid();
 print("Session ID: " + id);
-// Example: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
 ```
 
 ***
@@ -45,7 +44,6 @@ Calculates standard 256-bit SHA-2 digest:
 ```js
 var hash = crypto.sha256("password123");
 print("Hash: " + hash);
-// "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
 ```
 
 ***
@@ -71,10 +69,10 @@ Fast binary-to-text Base64 conversions:
 ```js
 var raw = "Hello, RayQuiro!";
 var encoded = crypto.base64_encode(raw);
-print("Base64: " + encoded); // "SGVsbG8sIFJheVF1aXJvIQ=="
+print("Base64: " + encoded);
 
 var decoded = crypto.base64_decode(encoded);
-print("Restored: " + decoded); // "Hello, RayQuiro!"
+print("Restored: " + decoded);
 ```
 
 ***

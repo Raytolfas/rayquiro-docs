@@ -52,7 +52,6 @@ var user = {
 
 var compact_json = json.stringify(user);
 print(compact_json);
-// Output: {"badges":["pioneer","tester"],"level":15,"username":"alex","verified":true}
 ```
 
 ***

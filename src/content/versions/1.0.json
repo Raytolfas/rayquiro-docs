@@ -1,0 +1,52 @@
+{
+  "sidebar": [
+    {
+      "label": "Getting Started",
+      "autogenerate": {
+        "directory": "getting-started"
+      }
+    },
+    {
+      "label": "Language",
+      "autogenerate": {
+        "directory": "language"
+      }
+    },
+    {
+      "label": "Built-ins",
+      "autogenerate": {
+        "directory": "built-ins"
+      }
+    },
+    {
+      "label": "Modules",
+      "autogenerate": {
+        "directory": "modules"
+      }
+    },
+    {
+      "label": "Packages",
+      "autogenerate": {
+        "directory": "packages"
+      }
+    },
+    {
+      "label": "CLI",
+      "autogenerate": {
+        "directory": "cli"
+      }
+    },
+    {
+      "label": "Core API",
+      "autogenerate": {
+        "directory": "core-api"
+      }
+    },
+    {
+      "label": "Guides",
+      "autogenerate": {
+        "directory": "guides"
+      }
+    }
+  ]
+}

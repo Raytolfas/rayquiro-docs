@@ -46,7 +46,6 @@ The resulting binary executes directly on CPU registers with no virtual machine 
 In tight loops, cache `len(arr)` in a local variable:
 
 ```js
-// Fast:
 var n = len(items);
 var i = 0;
 while (i < n) {

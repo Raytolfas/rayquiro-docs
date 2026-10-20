@@ -19,7 +19,7 @@ async fn compute_result() {
 }
 
 var promise = compute_result();
-print(promise); // <Promise>
+print(promise);
 ```
 
 ***
@@ -37,7 +37,7 @@ async fn load_greeting(name) {
 async fn run() {
     print("Loading...");
     var msg = await load_greeting("RayQuiro");
-    print(msg); // Hello, RayQuiro!
+    print(msg);
 }
 
 run();

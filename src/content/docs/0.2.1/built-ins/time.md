@@ -28,7 +28,7 @@ print("Starting countdown...");
 var i = 3;
 while (i > 0) {
     print(str(i) + "...");
-    time.sleep(1000); // 1 second
+    time.sleep(1000);
     i = i - 1;
 }
 print("Liftoff!");
@@ -43,7 +43,6 @@ Returns the high-resolution monotonic time in milliseconds since system boot. Un
 ```js
 var start_ms = time.ms();
 
-// Perform operations
 var i = 0;
 while (i < 500000) { i = i + 1; }
 

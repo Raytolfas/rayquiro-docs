@@ -53,28 +53,24 @@ Inside a route handler `fn(req, res)`:
 
 ***
 
-## 3. Comprehensive REST API Example
+## 3. REST API Example
 
 ```js
 import "rayquiro.web";
 
 var app = web.server();
 
-// Serve static HTML/CSS/JS
 app.static("/public", "./public");
 
-// In-memory items database
 var items = [
     { id: 1, name: "Mechanical Keyboard", price: 120 },
     { id: 2, name: "Wireless Mouse", price: 65 }
 ];
 
-// GET /api/items
 app.get("/api/items", fn(req, res) {
     res.json({ success: true, count: len(items), data: items });
 });
 
-// POST /api/items
 app.post("/api/items", fn(req, res) {
     try {
         var payload = json.parse(req.body);
@@ -93,7 +89,6 @@ app.post("/api/items", fn(req, res) {
     }
 });
 
-// HTML Home route
 app.get("/", fn(req, res) {
     res.html("<h1>RayQuiro Web Server</h1><p>Visit /api/items for REST data.</p>");
 });

@@ -3,7 +3,7 @@ title: random
 description: Built-in package for pseudo-random number generation, sampling, and shuffling.
 ---
 
-The `random` package provides high-performance pseudo-random number generation functions. It is available globally out-of-the-box without requiring any `import` statement.
+The `random` package provides pseudo-random number generation functions. It is available globally without an `import` statement.
 
 ## API Reference
 

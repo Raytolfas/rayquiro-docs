@@ -15,7 +15,7 @@ regex.test(str, pattern) -> bool
 
 ```js
 var valid = regex.test("hello@example.com", "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-print(valid); // true
+print(valid);
 ```
 
 ---
@@ -30,7 +30,7 @@ regex.match(str, pattern) -> array
 
 ```js
 var numbers = regex.match("Order #42 cost $99 with item #105", "\\d+");
-print(numbers); // ["42", "99", "105"]
+print(numbers);
 ```
 
 ---
@@ -45,7 +45,7 @@ regex.replace(str, pattern, replacement) -> string
 
 ```js
 var sanitized = regex.replace("user_123_temp", "_temp$", "");
-print(sanitized); // user_123
+print(sanitized);
 ```
 
 ---
@@ -60,5 +60,5 @@ regex.split(str, pattern) -> array
 
 ```js
 var parts = regex.split("apple, banana; orange : grape", "[,;: ]+");
-print(parts); // ["apple", "banana", "orange", "grape"]
+print(parts);
 ```

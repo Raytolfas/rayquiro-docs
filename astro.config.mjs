@@ -8,6 +8,7 @@ export default defineConfig({
       plugins: [
         starlightVersions({
           versions: [
+            { slug: "1.0", label: "v1.0" },
             { slug: "0.2.1", label: "v0.2.1" },
           ],
         }),

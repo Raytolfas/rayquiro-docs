@@ -66,14 +66,12 @@ Elements can be created with clean, minimal default styles and composed into hie
 import "rayquiro.app";
 import "rayquiro.ui";
 
-// 1. Create basic unstyled/clean elements (like pure HTML)
 var title = app.heading("Вход в систему", 2);
 var loginInput = app.input("Имя пользователя...");
 var passInput = app.input("Пароль...");
 var remember = app.checkbox("Запомнить меня", true);
 var submitBtn = app.button("Войти", { "id": "btn_login" });
 
-// 2. Apply clean CSS styles using rayquiro.ui
 submitBtn = ui.apply(submitBtn, {
     "background": "#2563eb",
     "color": "#ffffff",
@@ -81,7 +79,6 @@ submitBtn = ui.apply(submitBtn, {
     "padding": "8px 16px"
 });
 
-// 3. Compose layout using containers (Row / Column / Card)
 var formCard = app.card([
     title,
     app.divider(),
@@ -91,7 +88,6 @@ var formCard = app.card([
     submitBtn
 ]);
 
-// 4. Export or inspect as HTML
 var htmlCode = app.to_html(formCard);
 print(htmlCode);
 ```

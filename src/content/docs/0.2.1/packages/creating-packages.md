@@ -1,6 +1,6 @@
 ---
 title: Creating Packages
-description: Comprehensive step-by-step guide to developing, testing, and
+description: Guide to developing, testing, and
   structuring reusable RayQuiro libraries.
 slug: 0.2.1/packages/creating-packages
 ---
@@ -58,7 +58,6 @@ This creates a default `rqio.json` manifest:
 In `index.rq`, export public functions, structures, and classes. You can import other internal files relatively using `./`:
 
 ```js
-// index.rq
 import "./src/geometry.rq";
 import "./src/vector.rq";
 
@@ -78,7 +77,6 @@ fn map_range(value, in_min, in_max, out_min, out_max) {
 ```
 
 ```js
-// src/vector.rq
 fn vec2(x, y) {
     return { x: x, y: y };
 }
@@ -129,8 +127,8 @@ var pos = vec2(10, 20);
 var delta = vec2(5, -2);
 var new_pos = vec2_add(pos, delta);
 
-print("New X: " + str(new_pos["x"])); // 15
-print("New Y: " + str(new_pos["y"])); // 18
+print("New X: " + str(new_pos["x"]));
+print("New Y: " + str(new_pos["y"]));
 ```
 
 ***

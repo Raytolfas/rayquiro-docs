@@ -22,8 +22,6 @@ const PI = 3.14159;
 ## Comments
 
 ```js
-// line comment
-/* block comment */
 ```
 
 ## Semicolons — optional

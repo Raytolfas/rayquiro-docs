@@ -1,4 +1,4 @@
-﻿---
+---
 title: Error Handling
 description: Exceptions, throw, try/catch/finally blocks, and error management in RayQuiro.
 ---
@@ -47,7 +47,6 @@ fn process_transaction() {
     try {
         db_conn.exec("BEGIN TRANSACTION;");
         db_conn.exec("INSERT INTO logs VALUES ('started');");
-        // risky code
         db_conn.exec("COMMIT;");
     } catch (e) {
         db_conn.exec("ROLLBACK;");
@@ -85,4 +84,47 @@ try {
         print("Error: " + str(err));
     }
 }
+```
+
+---
+
+## 5. Deterministic Resource Cleanup (`defer`)
+
+RayQuiro provides the Zig/Go-style `defer` statement for deterministic, scoped cleanup. Deferred statements run in Last-In-First-Out (LIFO) order when the enclosing scope or function exits, whether normally, via early `return`, or due to an error:
+
+```js
+fn processFile(path) {
+    var f = fs.open(path);
+    defer f.close();
+
+    var buf = buffer.alloc(1024);
+    defer buffer.free(buf);
+
+    if (!path.exists(path)) {
+        return false;
+    }
+
+    return true;
+}
+```
+
+Multiple `defer` statements execute in reverse order of declaration:
+
+```js
+fn lifoExample() {
+    defer print("third");
+    defer print("second");
+    defer print("first");
+    print("start");
+}
+
+lifoExample();
+```
+
+Output:
+```
+start
+first
+second
+third
 ```

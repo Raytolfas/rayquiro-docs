@@ -5,7 +5,7 @@ description: Complete specification of RayQuiro primitive data types,
 slug: 0.2.1/language/types
 ---
 
-RayQuiro is a dynamically typed language with first-class primitives, flexible collection types, and user-defined structures.
+RayQuiro is a dynamically typed language with primitive types, collection types, and user-defined structures.
 
 ***
 
@@ -57,17 +57,16 @@ Strings are immutable sequences of UTF-8 characters enclosed in double quotes:
 
 ```js
 var greeting = "Hello, RayQuiro!";
-var length = len(greeting); // 16
+var length = len(greeting);
 
-// String Concatenation:
 var full = "Count: " + str(42);
 ```
 
 ### Type Conversion
 
 ```js
-var num_val = num("123.45"); // 123.45
-var str_val = str(100);       // "100"
+var num_val = num("123.45");
+var str_val = str(100);
 ```
 
 ***
@@ -97,9 +96,8 @@ When evaluated in conditionals (`if`, `while`):
 ```js
 var user = null;
 
-// Null coalescing:
 var username = user ?? "Anonymous";
-print(username); // "Anonymous"
+print(username);
 ```
 
 ***
@@ -111,17 +109,13 @@ Arrays are ordered, dynamically sized lists of values:
 ```js
 var inventory = ["potion", "shield", "sword"];
 
-// Reading elements:
-print(inventory[0]); // "potion"
+print(inventory[0]);
 
-// Modifying elements (Lvalue indexed assignment):
 inventory[0] = "super_potion";
 
-// Appending:
 push(inventory, "helmet");
 
-// Length:
-print("Total items: " + str(len(inventory))); // 4
+print("Total items: " + str(len(inventory)));
 ```
 
 ***
@@ -137,15 +131,12 @@ var player = {
     health: 100.0
 };
 
-// Accessing fields:
-print(player["name"]); // "Aria"
+print(player["name"]);
 
-// Updating fields:
 player["health"] = 85.0;
 
-// Introspection:
-var field_names = keys(player);   // ["name", "level", "health"]
-var field_values = values(player); // ["Aria", 25, 85.0]
+var field_names = keys(player);
+var field_values = values(player);
 ```
 
 ***
@@ -162,8 +153,8 @@ struct Item {
 }
 
 var sword = Item { id: 101, title: "Iron Blade", price: 45.5 };
-print(sword["title"]); // "Iron Blade"
-print(sword["id"]);    // 101
+print(sword["title"]);
+print(sword["id"]);
 ```
 
 ***
@@ -171,11 +162,11 @@ print(sword["id"]);    // 101
 ## 8. Type Checking via `type(v)`
 
 ```js
-print(type(42));           // "number"
-print(type("text"));       // "string"
-print(type(true));         // "bool"
-print(type(null));         // "null"
-print(type([1, 2]));       // "array"
-print(type({ a: 1 }));     // "object"
-print(type(fn() {}));      // "function"
+print(type(42));
+print(type("text"));
+print(type(true));
+print(type(null));
+print(type([1, 2]));
+print(type({ a: 1 }));
+print(type(fn() {}));
 ```

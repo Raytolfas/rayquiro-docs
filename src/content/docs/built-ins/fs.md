@@ -1,9 +1,9 @@
-﻿---
+---
 title: fs
 description: File system operations, file reading, writing, directory management, and file checks.
 ---
 
-The `fs` namespace provides comprehensive synchronous file system operations. No import is required.
+The `fs` namespace provides synchronous file system operations. No import is required.
 
 ---
 

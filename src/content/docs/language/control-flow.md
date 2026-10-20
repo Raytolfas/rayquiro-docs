@@ -68,7 +68,7 @@ var n = 0;
 while (n < 10) {
     n = n + 1;
     if (n % 2 == 0) {
-        continue; // Skip even numbers
+        continue;
     }
     print("Odd number: " + str(n));
 }
@@ -87,29 +87,27 @@ while (idx < len(fruits)) {
     print("Fruit #" + str(idx + 1) + ": " + item);
     idx = idx + 1;
 }
+```
 
 ---
 
 ## 5. Pattern Matching (`match`)
 
-RayQuiro 0.2.2 includes first-class pattern matching without fallthrough:
+RayQuiro includes pattern matching with range support and conditional guards without fallthrough:
 
 ```js
 var status = 200;
 
-match status {
+match (status) {
     200 => print("OK"),
-    400 => print("Bad Request"),
-    404 => print("Not Found"),
-    500 => {
-        print("Internal Server Error");
-        log_error("Server down");
-    },
+    400..499 => print("Client Error"),
+    500..599 if status != 503 => print("Server Error"),
+    503 => print("Service Unavailable"),
     _ => print("Unknown Status Code")
 }
 ```
 
-- Each pattern is evaluated in order; the first match executes and terminates the `match` construct immediately (no `break` needed).
-- Use `_` (wildcard) or `default` to handle fallback cases.
-- Both single statement expressions and `{ ... }` code blocks are supported on the right side of `=>`.
-```
+- **Ranges (`start..end`)**: Match values inclusive of boundaries (e.g. `1..9` or `400..499`).
+- **Pattern Guards (`if condition`)**: Execute arm only if both the pattern and the guard condition are satisfied.
+- **Wildcard (`_`)**: Match all fallback cases.
+- Both single statements and `{ ... }` blocks are supported after `=>`.
