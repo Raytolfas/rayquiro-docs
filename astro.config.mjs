@@ -1,6 +1,28 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import starlightVersions from "starlight-versions";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+function sitemapCopyPlugin() {
+  return {
+    name: "sitemap-copy-plugin",
+    hooks: {
+      "astro:build:done": async ({ dir }) => {
+        const outDir = fileURLToPath(dir);
+        const indexFile = path.join(outDir, "sitemap-index.xml");
+        const targetFile = path.join(outDir, "sitemap.xml");
+        if (fs.existsSync(targetFile) && fs.statSync(targetFile).isDirectory()) {
+          fs.rmSync(targetFile, { recursive: true, force: true });
+        }
+        if (fs.existsSync(indexFile)) {
+          fs.copyFileSync(indexFile, targetFile);
+        }
+      },
+    },
+  };
+}
 
 export default defineConfig({
   site: process.env.SITE_URL || "https://rayquiro.raytolfas.com",
@@ -56,5 +78,6 @@ export default defineConfig({
       ],
       customCss: ["./src/styles/custom.css"],
     }),
+    sitemapCopyPlugin(),
   ],
 });

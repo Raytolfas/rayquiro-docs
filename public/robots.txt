@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rayquiro.raytolfas.com/sitemap.xml
+Sitemap: https://rayquiro.raytolfas.com/sitemap-index.xml
