@@ -1,9 +1,9 @@
 ---
 title: rayquiro.engine
-description: Complete 2D and 3D multimedia game engine with Vulkan and Raylib renderers.
+description: High-performance 2D and 3D game engine powered by Raylib OpenGL core with dynamic lighting, spatial audio, and camera systems.
 ---
 
-The `rayquiro.engine` module is statically compiled into RayQuiro. It provides windowing, hardware-accelerated 2D/3D graphics (via Vulkan or Raylib), sound/music playback, texture loading, font rendering, and keyboard/mouse/gamepad input.
+The `rayquiro.engine` module is statically compiled into RayQuiro. Built upon the battle-tested Raylib OpenGL core, it provides guaranteed zero-configuration cross-platform windowing, hardware-accelerated 2D and 3D graphics, dynamic lighting with per-face normal shading and point lights, raycasting, camera systems, sound and music playback, and keyboard/mouse/gamepad input.
 
 ```js
 import "rayquiro.engine";
@@ -11,131 +11,191 @@ import "rayquiro.engine";
 
 ---
 
-## 1. Window & Lifecycle Methods
+## 1. Window & Engine Lifecycle
+
+The engine uses **Raylib** as its primary, reliable foundation. It starts instantly without needing external graphics SDKs or complex driver setup.
 
 | Method | Signature | Description |
-|--------|-----------|-------------|
-| `engine.init` | `engine.init(width, height, title)` | Initializes rendering window and OpenGL/Vulkan context. |
-| `engine.shouldClose` | `engine.shouldClose()` | Returns `true` if the window close button or Alt+F4 was pressed. |
-| `engine.close` | `engine.close()` | Frees engine resources and destroys the window. |
-| `engine.setFps` | `engine.setFps(target_fps)` | Locks frame rate (e.g. 60 or 144 FPS). |
-| `engine.getFps` | `engine.getFps()` | Returns current frames per second counter. |
-| `engine.getFrameTime`| `engine.getFrameTime()` | Delta time (`dt`) between frames in seconds. |
-| `engine.beginDraw` | `engine.beginDraw()` | Prepares the screen buffer for drawing. |
-| `engine.endDraw` | `engine.endDraw()` | Flips double-buffers and presents the frame. |
-| `engine.clear` | `engine.clear(r, g, b)` | Clears the background to an RGB color (`0..255`). |
-
----
-
-## 2. 2D Drawing Primitives
-
-| Method | Signature | Description |
-|--------|-----------|-------------|
-| `engine.drawRect` | `engine.drawRect(x, y, w, h, r, g, b)` | Draws a solid filled rectangle. |
-| `engine.drawRectLines` | `engine.drawRectLines(x, y, w, h, r, g, b)` | Draws an outlined rectangle. |
-| `engine.drawCircle` | `engine.drawCircle(cx, cy, radius, r, g, b)` | Draws a solid filled circle. |
-| `engine.drawLine` | `engine.drawLine(x1, y1, x2, y2, r, g, b)` | Draws a line segment between two points. |
-| `engine.drawText` | `engine.drawText(text, x, y, size, r, g, b)` | Renders text at coordinates with font size. |
-
----
-
-## 3. Input Handling
-
-### Keyboard Input
-
-```js
-if (engine.isKeyDown(262)) {
-    player_x = player_x + speed * dt;
-}
-if (engine.isKeyPressed(32)) {
-    player_vy = -350.0;
-}
-```
-
-### Mouse Input
-
-```js
-var mouse_pos = engine.getMousePosition();
-var left_clicked = engine.isMouseButtonPressed(0);
-```
-
----
-
-## 4. Audio & Textures
-
-```js
-var sprite = engine.loadTexture("assets/player.png");
-engine.drawTexture(sprite, 100, 150);
-engine.drawTextureEx(sprite, 100, 150, 45.0, 2.0);
-
-var jump_sfx = engine.loadSound("assets/jump.wav");
-engine.playSound(jump_sfx);
-
-var bgm = engine.loadMusic("assets/theme.ogg");
-engine.playMusic(bgm);
-engine.updateMusic(bgm);
-```
-
----
-
-## 5. Complete Game Example
+|---|---|---|
+| `engine.init` | `engine.init(width, height, title)` | Initializes rendering window and OpenGL context. |
+| `engine.backend_name` | `engine.backend_name()` | Returns active backend name (default: `"raylib"`). |
+| `engine.capabilities` | `engine.capabilities()` | Returns hardware and engine feature flags object. |
+| `engine.should_close` | `engine.should_close()` | Returns `true` if window close button or Alt+F4 was triggered. |
+| `engine.shutdown` | `engine.shutdown()` | Releases GPU resources, audio device, and window context. |
+| `engine.frame_begin` | `engine.frame_begin(color)` | Clears frame buffers to specified background color. |
+| `engine.frame_end` | `engine.frame_end()` | Finalizes rendering passes and presents the frame to display. |
+| `engine.target_fps` | `engine.target_fps(fps)` | Locks frame rate (e.g. 60 or 144 FPS). |
+| `engine.fps` | `engine.fps()` | Returns current frames per second counter. |
+| `engine.frame_time` | `engine.frame_time()` | Delta time (`dt`) between frames in seconds. |
 
 ```js
 import "rayquiro.engine";
 
-engine.init(800, 600, "RayQuiro Pong");
-engine.setFps(60);
+engine.init(1280, 720, "RayQuiro 3D Engine");
+engine.target_fps(60);
 
-var ball_x = 400.0;
-var ball_y = 300.0;
-var speed_x = 250.0;
-var speed_y = 200.0;
-
-while (!engine.shouldClose()) {
-    var dt = engine.getFrameTime();
-
-    ball_x = ball_x + speed_x * dt;
-    ball_y = ball_y + speed_y * dt;
-
-    if (ball_x < 10 || ball_x > 790) { speed_x = -speed_x; }
-    if (ball_y < 10 || ball_y > 590) { speed_y = -speed_y; }
-
-    engine.beginDraw();
-    engine.clear(20, 24, 32);
-
-    engine.drawCircle(ball_x, ball_y, 12, 255, 100, 100);
-    engine.drawText("FPS: " + str(engine.getFps()), 10, 10, 20, 200, 200, 200);
-
-    engine.endDraw();
-}
-
-engine.close();
+var caps = engine.capabilities();
+print("Active backend:", engine.backend_name());
+print("3D Supported:", caps["supports3D"]);
+print("Raycasting:", caps["supportsRaycasting"]);
 ```
 
 ---
 
-## Audio System (`audio.*`)
+## 2. Dynamic Lighting System
 
-RayQuiro includes high-performance audio playback powered by Raylib:
+The Raylib core supports real-time directional sunlight and dynamic point lights with distance quadratic attenuation and face normal shading:
+
+| Method | Signature | Description |
+|---|---|---|
+| `engine.light_ambient` | `engine.light_ambient(r, g, b, [intensity])` | Sets ambient scene light color and intensity. |
+| `engine.light_directional` | `engine.light_directional(dir, color, intensity)` | Sets directional sun vector, color, and intensity factor. |
+| `engine.light_point` | `engine.light_point(id, pos, color, intensity, radius)` | Adds or updates dynamic point light with attenuation radius. |
+| `engine.light_remove` | `engine.light_remove(id)` | Removes point light by identifier. |
+| `engine.lights_clear` | `engine.lights_clear()` | Clears all dynamic point lights. |
+| `engine.lights` | `engine.lights()` | Returns list of active point lights. |
+
+```js
+engine.lights_clear();
+engine.light_ambient(28, 32, 44, 0.4);
+engine.light_directional({"x": -0.4, "y": -1.0, "z": -0.3}, {"r": 255, "g": 240, "b": 220}, 1.2);
+engine.light_point("torch", {"x": 0, "y": 2.5, "z": -5}, {"r": 255, "g": 180, "b": 60}, 2.0, 15.0);
+```
+
+---
+
+## 3. Direct 3D Drawing Primitives
+
+All 3D primitives are rendered with hardware depth-buffering and dynamic lighting:
+
+### 3D Primitives
+- `engine.draw_cube(pos, size, color)` — Solid 3D box with face normal shading and point light reception.
+- `engine.draw_plane(pos, size, color)` — Horizontal 3D ground plane.
+- `engine.draw_sphere(pos, radius, color)` — Shaded 3D sphere.
+- `engine.draw_cylinder(pos, radius, height, color)` — Shaded 3D cylinder.
+- `engine.draw_wire_cube(pos, size, color)` — 3D wireframe bounding box.
+- `engine.draw_wire_sphere(pos, radius, color)` — 3D wireframe sphere.
+- `engine.draw_line_3d(start, end, color)` — 3D line segment between two coordinates.
+- `engine.draw_grid(slices, spacing)` — Ground reference grid.
+
+### 2D Primitives & UI Overlays
+- `engine.draw_rect(x, y, w, h, color)` — Filled 2D rectangle.
+- `engine.draw_rect_lines(x, y, w, h, color)` — Outlined 2D rectangle.
+- `engine.draw_circle(cx, cy, radius, color)` — Filled 2D circle.
+- `engine.draw_circle_lines(cx, cy, radius, color)` — Outlined 2D circle.
+- `engine.draw_line(x1, y1, x2, y2, color)` — 2D line segment.
+- `engine.draw_pixel(x, y, color)` — Single pixel plot.
+- `engine.draw_text(text, x, y, size, color)` — High-quality text rendering.
+- `engine.draw_fps(x, y)` — Hardware FPS counter widget.
+
+---
+
+## 4. Camera Systems
+
+| Method | Signature | Description |
+|---|---|---|
+| `engine.camera` | `engine.camera(pos, target, up, fov)` | Sets camera position, look target, up vector, and field of view. |
+| `engine.camera_fps` | `engine.camera_fps(speed, sensitivity)` | Built-in first-person WASD and mouse look update. |
+| `engine.camera_orbit` | `engine.camera_orbit(yaw, pitch, radiusDelta)` | Revolves camera around target point. |
+
+```js
+var px = 0.0;
+var py = 1.7;
+var pz = 10.0;
+var fov = 75.0;
+
+engine.camera(
+    {"x": px, "y": py, "z": pz},
+    {"x": 0.0, "y": 1.7, "z": 0.0},
+    {"x": 0.0, "y": 1.0, "z": 0.0},
+    fov
+);
+```
+
+---
+
+## 5. Input Handling
+
+| Method | Signature | Description |
+|---|---|---|
+| `engine.key_down` | `engine.key_down(key)` | Returns `true` while key is held down (key code or letter string). |
+| `engine.key_pressed` | `engine.key_pressed(key)` | Returns `true` once on the frame the key was pressed. |
+| `engine.mouse_down` | `engine.mouse_down(button)` | Returns `true` if mouse button (0=left, 1=right) is held. |
+| `engine.mouse_pos` | `engine.mouse_pos()` | Returns `[mouseX, mouseY]` array. |
+| `engine.mouse_delta` | `engine.mouse_delta()` | Returns `{"dx": ..., "dy": ...}` mouse movement delta. |
+
+```js
+if (engine.key_down("W")) {
+    pz = pz - speed * dt;
+}
+
+var mDelta = engine.mouse_delta();
+yaw = yaw + mDelta["dx"] * sens;
+```
+
+---
+
+## 6. Audio System (`audio.*`)
+
+The engine includes integrated spatial and 2D audio processing:
 
 | Function | Signature | Description |
 |---|---|---|
-| `audio.init` | `audio.init()` | Initializes the audio device. |
-| `audio.load_sound` | `audio.load_sound(path)` | Loads a short sound effect into memory. |
-| `audio.play` | `audio.play(sound)` | Plays a loaded sound effect. |
-| `audio.stop` | `audio.stop(sound)` | Stops playing a sound effect. |
-| `audio.set_volume` | `audio.set_volume(sound, vol)` | Sets volume for a sound effect (`0.0` to `1.0`). |
-| `audio.load_music` | `audio.load_music(path)` | Streams a background music track from file. |
+| `audio.init` | `audio.init()` | Initializes the audio hardware device. |
+| `audio.load_sound` | `audio.load_sound(path)` | Loads sound effect into memory (`.wav`, `.ogg`, `.mp3`). |
+| `audio.play` | `audio.play(sound)` | Plays loaded sound effect. |
+| `audio.stop` | `audio.stop(sound)` | Stops playing sound effect. |
+| `audio.set_volume` | `audio.set_volume(sound, vol)` | Sets volume (`0.0` to `1.0`). |
+| `audio.load_music` | `audio.load_music(path)` | Streams music track from file. |
 | `audio.play_music` | `audio.play_music(music)` | Starts music streaming. |
 | `audio.update_music` | `audio.update_music(music)` | Updates music stream buffers (call each frame). |
-| `audio.stop_music` | `audio.stop_music(music)` | Stops background music playback. |
+
+---
+
+## 7. Complete 3D Scene Example
 
 ```js
-audio.init();
+import "rayquiro.engine";
 
-var jumpSound = audio.load_sound("assets/jump.wav");
-audio.play(jumpSound);
+var screenW = 1280;
+var screenH = 720;
+engine.init(screenW, screenH, "RayQuiro 3D - Raylib Engine");
+engine.target_fps(60);
 
-var bgm = audio.load_music("assets/theme.ogg");
-audio.play_music(bgm);
+var px = 0.0;
+var py = 2.0;
+var pz = 8.0;
+var rot = 0.0;
+
+while (!engine.should_close()) {
+    var dt = engine.frame_time();
+    rot = rot + 45.0 * dt;
+
+    engine.camera(
+        {"x": px, "y": py, "z": pz},
+        {"x": 0.0, "y": 1.0, "z": 0.0},
+        {"x": 0.0, "y": 1.0, "z": 0.0},
+        75.0
+    );
+
+    engine.lights_clear();
+    engine.light_ambient(30, 36, 48, 0.4);
+    engine.light_directional({"x": -0.5, "y": -1.0, "z": -0.3}, {"r": 255, "g": 240, "b": 220}, 1.2);
+    engine.light_point("beacon", {"x": 0.0, "y": 3.0, "z": 0.0}, {"r": 80, "g": 200, "b": 255}, 2.0, 15.0);
+
+    engine.frame_begin({"r": 16, "g": 18, "b": 24});
+
+    engine.draw_grid(20, 1.0);
+    engine.draw_cube({"x": 0.0, "y": -0.05, "z": 0.0}, {"x": 12.0, "y": 0.1, "z": 12.0}, {"r": 40, "g": 44, "b": 52});
+    engine.draw_cube({"x": 0.0, "y": 1.0, "z": 0.0}, {"x": 1.6, "y": 2.0, "z": 1.6}, {"r": 220, "g": 60, "b": 60});
+    engine.draw_wire_cube({"x": 0.0, "y": 1.0, "z": 0.0}, {"x": 2.2, "y": 2.6, "z": 2.2}, {"r": 255, "g": 255, "b": 255});
+    engine.draw_cylinder({"x": 3.0, "y": 1.0, "z": 0.0}, 0.5, 2.0, {"r": 60, "g": 160, "b": 240});
+
+    engine.draw_fps(16, 16);
+    engine.draw_text("RayQuiro 3D Raylib Engine Active", 16, 40, 16, {"r": 255, "g": 255, "b": 255});
+
+    engine.frame_end();
+}
+
+engine.shutdown();
 ```

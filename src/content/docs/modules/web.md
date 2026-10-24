@@ -1,36 +1,80 @@
 ---
 title: rayquiro.web
-description: High-performance embedded HTTP web server and reactive routing for RayQuiro.
+description: High-performance embedded HTTP web server, declarative component rendering, and routing for RayQuiro.
 ---
 
-The `rayquiro.web` module provides a micro-web framework compiled natively into the RayQuiro binary. It allows you to build REST APIs, static web servers, and webhooks with zero external dependencies.
+The `rayquiro.web` module provides both a native embedded HTTP server for REST APIs and a declarative component templating system for rendering HTML web applications with zero external dependencies.
 
-```js
+```rq
 import "rayquiro.web";
 ```
 
 ---
 
-## 1. Quick Reference
+## 1. Declarative Web Components & Templating
+
+In v1.1, `rayquiro.web` supports declarative element construction and templating without procedural nesting:
+
+```rq
+import "rayquiro.web";
+
+var pageContent = web.element("div", {"class": "hero"}, [
+    web.element("h1", {"class": "title"}, "Fast, Native Web"),
+    web.element("p", {}, "Compiled directly to machine code"),
+    web.element("button", {"class": "primary-btn"}, "Get Started")
+]);
+
+web.page("Home", pageContent);
+```
+
+### Declarative Methods
+
+| Method | Signature | Description |
+|--------|-----------|-------------|
+| `web.element` | `web.element(tag, props, children)` | Constructs a declarative element node object. |
+| `web.render` | `web.render(tree)` | Recursively compiles a component tree or string into HTML. |
+| `web.template` | `web.template(html, data)` | Interpolates a data dictionary into an HTML string with `{{key}}` syntax. |
+| `web.page` | `web.page(title, body, [path], [css])` | Generates a single complete HTML page file directly. |
+| `web.begin` | `web.begin(title)` | Starts a multi-route static site build session. |
+| `web.route` | `web.route(path, title)` | Defines a URL route and active page in static build. |
+| `web.end` | `web.end()` | Finalizes and writes all static pages to the build directory. |
+
+### Template Interpolation Example
+
+```rq
+import "rayquiro.web";
+
+var templateString = "<div class=\"user-card\"><h2>{{name}}</h2><span>Role: {{role}}</span></div>";
+var card = web.template(templateString, {
+    "name": "RayQuiro Developer",
+    "role": "Core Maintainer"
+});
+
+web.render(card);
+```
+
+---
+
+## 2. Embedded HTTP Server & REST API
+
+The HTTP server engine handles incoming TCP connections, parses HTTP/1.1 headers, and routes requests:
 
 | Method | Signature | Description |
 |--------|-----------|-------------|
 | `web.server` | `web.server()` | Creates a new HTTP server instance. |
-| `app.get` | `app.get(path, handler)` | Registers an HTTP GET route. |
-| `app.post` | `app.post(path, handler)` | Registers an HTTP POST route. |
-| `app.put` | `app.put(path, handler)` | Registers an HTTP PUT route. |
-| `app.delete` | `app.delete(path, handler)` | Registers an HTTP DELETE route. |
+| `app.get` | `app.get(path, handler)` | Registers an HTTP GET route handler. |
+| `app.post` | `app.post(path, handler)` | Registers an HTTP POST route handler. |
+| `app.put` | `app.put(path, handler)` | Registers an HTTP PUT route handler. |
+| `app.delete` | `app.delete(path, handler)` | Registers an HTTP DELETE route handler. |
 | `app.static` | `app.static(prefix, dir)` | Serves static assets from a local folder. |
 | `app.listen` | `app.listen(port)` | Starts the server listening on the specified port. |
 | `app.stop` | `app.stop()` | Gracefully shuts down the web server. |
 
----
-
-## 2. Request and Response API
+### Request & Response API
 
 Inside a route handler `fn(req, res)`:
 
-### Request Object (`req`)
+#### Request Object (`req`)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -40,7 +84,7 @@ Inside a route handler `fn(req, res)`:
 | `req.headers` | `object` | Key-value map of incoming HTTP headers. |
 | `req.query` | `object` | Parsed query string parameters. |
 
-### Response Object (`res`)
+#### Response Object (`res`)
 
 | Method | Signature | Description |
 |--------|-----------|-------------|
@@ -54,7 +98,7 @@ Inside a route handler `fn(req, res)`:
 
 ## 3. REST API Example
 
-```js
+```rq
 import "rayquiro.web";
 
 var app = web.server();

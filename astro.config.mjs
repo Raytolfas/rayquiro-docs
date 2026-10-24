@@ -3,6 +3,7 @@ import starlight from "@astrojs/starlight";
 import starlightVersions from "starlight-versions";
 
 export default defineConfig({
+  site: process.env.SITE_URL || "https://rayquiro.raytolfas.com",
   integrations: [
     starlight({
       plugins: [

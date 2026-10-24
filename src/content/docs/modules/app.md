@@ -1,9 +1,12 @@
 ---
 title: rayquiro.app
-description: Application DOM elements (HTML-like) and desktop window lifecycle for RayQuiro.
+description: Application DOM elements, pixel-perfect native desktop GUI, and window lifecycle for RayQuiro.
 ---
 
-The `rayquiro.app` module serves as the **HTML/DOM structure** layer of RayQuiro. Just as HTML provides semantic structure and elements (`<button>`, `<input>`, `<div>`) while CSS styles them, `rayquiro.app` creates and organizes UI element objects, while `rayquiro.ui` provides styling.
+The `rayquiro.app` module serves as the primary UI structural foundation for RayQuiro. It operates in two unified modes:
+
+1. **Native Desktop GUI Application**: Native Win32/Linux windowing, High-DPI awareness, automatic pixel-perfect baseline alignment, built-in themes, and event loop management.
+2. **Declarative DOM/HTML Elements**: Component hierarchy building (`<button>`, `<input>`, `<div>`, flex rows/columns) and serialization to HTML via `app.to_html`.
 
 ```rq
 import "rayquiro.app";
@@ -12,117 +15,119 @@ import "rayquiro.ui";
 
 ---
 
-## 1. The Mental Model: `app = HTML, ui = CSS`
+## 1. The Mental Model: `app = HTML / Controls, ui = CSS`
 
 ```
 ┌────────────────────────────────────────────────────────┐
 │                   RayQuiro Interface                   │
 ├──────────────────────────┬─────────────────────────────┤
 │       rayquiro.app       │        rayquiro.ui          │
-│      (HTML Elements)     │       (CSS & Styling)       │
+│    (Controls & Structure)│       (CSS & Styling)       │
 ├──────────────────────────┼─────────────────────────────┤
-│ • Button, Text, Input    │ • Color palettes & themes   │
-│ • Checkbox, Radio        │ • CSS rules & inline styles │
-│ • Slider, Progress, Select│ • Margins, paddings, borders│
-│ • Row, Column, Box, Card │ • Minimal default styles    │
-│ • Window & Event Loop    │ • ui.apply(element, style)  │
+│ • Window Lifecycle       │ • Themes: dark, light, nord │
+│ • High-DPI Awareness     │ • Colors: rgb, rgba, hex    │
+│ • Button, Text, Input    │ • Color blending & alpha    │
+│ • Checkbox, Radio, Slider│ • CSS rule parser           │
+│ • Row, Column, Box, Card │ • ui.apply(element, style)  │
+│ • app.to_html(element)   │ • Typography & tokens       │
 └──────────────────────────┴─────────────────────────────┘
 ```
 
 ---
 
-## 2. Element Catalog (`app.*`)
+## 2. Native Desktop GUI Applications
 
-All element constructors return a clean, structured `Element` object.
-
-| Element | Signature | Description |
-|---------|-----------|-------------|
-| **Button** | `app.button(text, options)` | Interactive push button (`<button>`). |
-| **Text** | `app.text(text, options)` | Inline text label (`<span>` / `<label>`). |
-| **Input** | `app.input(placeholder, value, options)` | Single-line text input field (`<input>`). |
-| **Textarea** | `app.textarea(placeholder, value, options)` | Multi-line text area (`<textarea>`). |
-| **Checkbox** | `app.checkbox(label, checked, options)` | Toggle checkbox (`<input type="checkbox">`). |
-| **Radio** | `app.radio(label, group, checked, options)` | Radio selection button (`<input type="radio">`). |
-| **Slider** | `app.slider(min, max, value, options)` | Numeric range slider (`<input type="range">`). |
-| **Progress** | `app.progress(value, max, options)` | Progress status bar (`<progress>`). |
-| **Select** | `app.select(optionsArray, selectedIndex, options)` | Dropdown select menu (`<select>`). |
-| **Image** | `app.image(src, options)` | Image element (`<img>`). |
-| **Link** | `app.link(url, text, options)` | Hyperlink anchor (`<a href="...">`). |
-| **Heading** | `app.heading(text, level, options)` | Title heading `<h1>` - `<h6>`. |
-| **Divider** | `app.divider(options)` | Horizontal rule separator (`<hr />`). |
-| **Row** | `app.row(children, options)` | Horizontal flexbox layout (`display: flex; flex-direction: row`). |
-| **Column** | `app.column(children, options)` | Vertical flexbox layout (`display: flex; flex-direction: column`). |
-| **Box / Card** | `app.box(children, options)` | Container card/box (`<div>`). |
-| **Generic** | `app.element(tag, props, children, style)` | Generic custom DOM element constructor. |
-| **To HTML** | `app.to_html(element)` | Serializes element tree directly to valid HTML string. |
-
----
-
-## 3. Creating & Organizing Elements
-
-Elements can be created with clean, minimal default styles and composed into hierarchies:
+In v1.1, `rayquiro.app` features full High-DPI support (`SetProcessDPIAware`) on Windows and pixel-perfect vertical centering across both Windows and Linux. All controls adhere to a standardized 36px height baseline, eliminating layout jumping and misaligned fonts.
 
 ```rq
 import "rayquiro.app";
 import "rayquiro.ui";
 
-var title = app.heading("Вход в систему", 2);
-var loginInput = app.input("Имя пользователя...");
-var passInput = app.input("Пароль...");
-var remember = app.checkbox("Запомнить меня", true);
-var submitBtn = app.button("Войти", { "id": "btn_login" });
+app.init("RayQuiro v1.1 Studio", 520, 380);
 
-submitBtn = ui.apply(submitBtn, {
+app.set_theme("dark");
+
+app.text("Welcome to RayQuiro Desktop Application");
+app.input("Project name or path...");
+app.checkbox("Enable Vulkan PBR hardware acceleration", true);
+app.button("Create Project");
+
+app.run();
+```
+
+### Desktop Window & Controls API
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `app.init` | `app.init(title, width, height)` | Initializes application window with High-DPI scaling enabled. |
+| `app.run` | `app.run()` | Starts OS event processing and render loop. |
+| `app.set_theme` | `app.set_theme(name)` | Applies theme palette (`"dark"`, `"light"`, `"midnight"`, `"dracula"`, `"cyberpunk"`). |
+| `app.set_style` | `app.set_style(cssLike)` | Configures background and font size via CSS syntax. |
+| `app.button` | `app.button(text, x = -1, y = -1, w = -1, h = -1)` | Native push button with auto-layout or explicit geometry. |
+| `app.text` | `app.text(text, x = -1, y = -1, w = -1, h = -1)` | Vertically centered text label aligning with buttons and inputs. |
+| `app.input` | `app.input(placeholder, x = -1, y = -1, w = -1, h = -1)` | Single-line editable text input box with clipboard support. |
+| `app.checkbox` | `app.checkbox(label, checked, x = -1, y = -1, w = -1, h = -1)` | Native toggle checkbox with vertically centered baseline. |
+| `app.msg` | `app.msg(title, text)` | Native modal system message dialog box. |
+| `app.show_message` | `app.show_message(title, text)` | Alias for `app.msg`. |
+| `app.quit` | `app.quit()` | Terminates message loop and destroys application window. |
+
+---
+
+## 3. Declarative DOM & HTML Elements
+
+`rayquiro.app` can also be used as a structured UI element tree generator that serializes directly to clean HTML:
+
+| Element | Signature | Description |
+|---------|-----------|-------------|
+| **Button** | `app.button(text, options)` | Interactive button element (`<button>`). |
+| **Text** | `app.text(text, options)` | Text span / label element (`<span>`). |
+| **Label** | `app.label(text, options)` | Form label element (`<label>`). |
+| **Input** | `app.input(placeholder, value, options)` | Text input field (`<input>`). |
+| **Textarea** | `app.textarea(placeholder, value, options)` | Multi-line text field (`<textarea>`). |
+| **Checkbox** | `app.checkbox(label, checked, options)` | Toggle checkbox (`<input type="checkbox">`). |
+| **Radio** | `app.radio(label, group, checked, options)` | Radio button (`<input type="radio">`). |
+| **Slider** | `app.slider(min, max, value, options)` | Numeric range slider (`<input type="range">`). |
+| **Progress** | `app.progress(value, max, options)` | Progress bar (`<progress>`). |
+| **Select** | `app.select(optionsArray, selectedIndex, options)` | Dropdown select menu (`<select>`). |
+| **Image** | `app.image(src, options)` | Image element (`<img>`). |
+| **Link** | `app.link(url, text, options)` | Anchor hyperlink (`<a href="...">`). |
+| **Heading** | `app.heading(text, level, options)` | Heading element `<h1>` - `<h6>`. |
+| **Divider** | `app.divider(options)` | Horizontal divider line (`<hr />`). |
+| **Row** | `app.row(children, options)` | Horizontal flexbox layout container. |
+| **Column** | `app.column(children, options)` | Vertical flexbox layout container. |
+| **Box** | `app.box(children, options)` | Container block (`<div>`). |
+| **Card** | `app.card(children, options)` | Styled card container. |
+| **Generic** | `app.element(tag, props, children, style)` | Generic custom HTML tag constructor. |
+| **To HTML** | `app.to_html(element)` | Serializes element tree directly to HTML string. |
+
+### Component Composition Example
+
+```rq
+import "rayquiro.app";
+import "rayquiro.ui";
+
+var heading = app.heading("Account Login", 2);
+var userField = app.input("Username");
+var passField = app.input("Password");
+var keepLogged = app.checkbox("Remember session", true);
+var loginBtn = app.button("Sign In");
+
+loginBtn = ui.apply(loginBtn, {
     "background": "#2563eb",
     "color": "#ffffff",
     "radius": 6,
     "padding": "8px 16px"
 });
 
-var formCard = app.card([
-    title,
+var card = app.card([
+    heading,
     app.divider(),
-    loginInput,
-    passInput,
-    remember,
-    submitBtn
+    userField,
+    passField,
+    keepLogged,
+    loginBtn
 ]);
 
-var htmlCode = app.to_html(formCard);
-print(htmlCode);
+var html = app.to_html(card);
+print(html);
 ```
-
----
-
-## 4. Running Desktop Applications & Windows
-
-The `app` module launches native desktop applications, opens OS windows, and manages native controls, while `ui` configures styling (backgrounds, fonts, colors, and CSS rules):
-
-```rq
-import "rayquiro.app";
-import "rayquiro.ui";
-
-app.init("My Desktop App", 480, 340);
-
-ui.style("background: #18181b; color: #f4f4f5; font-size: 14;");
-
-app.text("Welcome to RayQuiro Desktop Application!");
-app.input("Enter your command...");
-app.checkbox("Start automatically with OS", true);
-app.button("Launch");
-
-app.run();
-```
-
-### Window & Control APIs:
-
-| Function | Description |
-|----------|-------------|
-| `app.init(title, width, height)` | Creates and displays an application window. |
-| `app.run()` | Starts the OS message/event loop. |
-| `app.button(text, x, y, w, h)` | Adds a button control (auto-positioned if coordinates are omitted). |
-| `app.text(text, x, y, w, h)` | Adds a text label control. |
-| `app.input(placeholder, x, y, w, h)` | Adds a single-line text input control. |
-| `app.checkbox(label, checked, x, y, w, h)` | Adds a toggle checkbox control. |
-| `app.msg(title, text)` | Displays a native modal message dialog box. |
-| `app.quit()` / `app.close()` | Closes the window and terminates the app. |

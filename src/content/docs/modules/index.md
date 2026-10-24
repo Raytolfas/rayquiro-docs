@@ -98,8 +98,8 @@ Provides styling presets, themes, CSS stylesheet parsing, and color manipulation
 - CSS parser and serializer: `ui.parse(...)`, `ui.stringify(...)`, `ui.style(...)`.
 - [Read full `rayquiro.ui` documentation →](/modules/ui/)
 
-### 3. `rayquiro.engine` — 2D/3D Game Engine (Raylib + Vulkan)
-Hardware-accelerated rendering, audio playback, camera controls, gizmos, and game loop management.
+### 3. `rayquiro.engine` — 2D/3D Game Engine (Raylib Core)
+Hardware-accelerated rendering, dynamic 3D lighting, spatial audio playback, camera controls, gizmos, and game loop management.
 - Window rendering and draw callbacks (`engine.begin_drawing()`, `engine.draw_rect()`).
 - Audio system (`audio.play_sound()`, `audio.play_music()`).
 - Scene serialization and camera management.
