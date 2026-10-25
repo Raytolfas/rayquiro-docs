@@ -13,7 +13,8 @@ RayQuiro provides three distinct execution tiers to give you the ideal balance b
 |----------------|---------|-----------------|-----------------|----------|
 | **Native Binary (LLVM)** | `rqio build --release` | Zero (direct native binary) | **Maximum** (C/Rust speed) | Production releases, games, desktop apps, servers |
 | **Bytecode VM** | `rqio run script.rq` | Instant (~5ms) | **Fast** (JIT-like speed) | Daily development, rapid testing, scripts |
-| **Tree-Walk Interpreter** | `rqio run --legacy` | Instant (~2ms) | Baseline | Debugging, embedded systems, microcontrollers |
+
+> In RayQuiro 1.2+, the legacy tree-walk interpreter has been deprecated in favor of the unified high-performance Bytecode VM.
 
 ---
 

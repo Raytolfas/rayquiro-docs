@@ -5,12 +5,11 @@ description: Run scripts, hot reload, interactive REPL, and compile standalone n
 
 ## rqio run
 
-Execute RayQuiro scripts directly using the high-performance Bytecode VM or tree-walk interpreter.
+Execute RayQuiro scripts directly using the high-performance Bytecode VM.
 
 ```bash
 rqio run <file.rq> [args...]
 rqio run <file.rq> --watch        # Hot Reload: automatically reloads on file save
-rqio run <file.rq> --legacy       # Force tree-walk interpreter
 ```
 
 ### Hot Reload (`--watch` / `-w`)
