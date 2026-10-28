@@ -1,12 +1,13 @@
 ---
 title: rayquiro.app
-description: Application DOM elements, pixel-perfect native desktop GUI, and window lifecycle for RayQuiro.
+description: Declarative Slint hardware-accelerated desktop UI, native OS windowing, and DOM element tree for RayQuiro.
 ---
 
-The `rayquiro.app` module serves as the primary UI structural foundation for RayQuiro. It operates in two unified modes:
+The `rayquiro.app` module serves as the primary UI structural foundation for RayQuiro applications. In RayQuiro 1.3, it operates in three integrated modes:
 
-1. **Native Desktop GUI Application**: Native Win32/Linux windowing, High-DPI awareness, automatic pixel-perfect baseline alignment, built-in themes, and event loop management.
-2. **Declarative DOM/HTML Elements**: Component hierarchy building (`<button>`, `<input>`, `<div>`, flex rows/columns) and serialization to HTML via `app.to_html`.
+1. **Declarative Slint Desktop Applications**: GPU-accelerated desktop UI rendered via Slint. Builds complete component trees directly in RayQuiro without external `.slint` files.
+2. **Native Desktop GUI Applications**: Native Win32/Linux desktop windowing with High-DPI awareness, standardized baseline controls, and modal dialogs.
+3. **Declarative DOM/HTML Elements**: Component hierarchy construction and serialization to HTML strings via `app.to_html`.
 
 ```rq
 import "rayquiro.app";
@@ -15,7 +16,7 @@ import "rayquiro.ui";
 
 ---
 
-## 1. The Mental Model: `app = HTML / Controls, ui = CSS`
+## 1. The Mental Model: `app = Controls & Structure, ui = Styling`
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -24,38 +25,124 @@ import "rayquiro.ui";
 │       rayquiro.app       │        rayquiro.ui          │
 │    (Controls & Structure)│       (CSS & Styling)       │
 ├──────────────────────────┼─────────────────────────────┤
-│ • Window Lifecycle       │ • Themes: dark, light, nord │
-│ • High-DPI Awareness     │ • Colors: rgb, rgba, hex    │
+│ • Slint Hardware Engine  │ • Themes: dark, light, nord │
+│ • Native OS Windowing    │ • Colors: rgb, rgba, hex    │
 │ • Button, Text, Input    │ • Color blending & alpha    │
-│ • Checkbox, Radio, Slider│ • CSS rule parser           │
-│ • Row, Column, Box, Card │ • ui.apply(element, style)  │
-│ • app.to_html(element)   │ • Typography & tokens       │
+│ • Textarea, Slider, Box  │ • CSS rule parser           │
+│ • Row, Column, Card      │ • ui.apply(element, style)  │
+│ • app.to_slint(element)  │ • Typography & tokens       │
+│ • app.to_html(element)   │ • Layout constraints        │
 └──────────────────────────┴─────────────────────────────┘
 ```
 
 ---
 
-## 2. Native Desktop GUI Applications
+## 2. Declarative Slint Desktop Applications
 
-In v1.1, `rayquiro.app` features full High-DPI support (`SetProcessDPIAware`) on Windows and pixel-perfect vertical centering across both Windows and Linux. All controls adhere to a standardized 36px height baseline, eliminating layout jumping and misaligned fonts.
+RayQuiro 1.3 includes full Slint integration. You define the complete layout, cards, buttons, text inputs, sliders, and controls directly in RayQuiro syntax. The runtime compiles the tree into optimized Slint component definitions in memory and launches the hardware-accelerated window.
+
+### Declarative Slint Example
+
+```rq
+import "rayquiro.app";
+
+var header = app.row([
+    app.column([
+        app.heading("RayQuiro Studio", 2),
+        app.text("Declarative desktop application written entirely in pure RayQuiro")
+    ]),
+    app.button("Sync State")
+]);
+
+var cardMetrics = app.card([
+    app.heading("Execution Metrics", 3),
+    app.text("Engine: Bytecode VM / LLVM Native"),
+    app.text("Memory: 38.2 MB managed heap"),
+    app.text("Latency: 0.14ms GC cycle")
+]);
+
+var cardControls = app.card([
+    app.heading("Configuration", 3),
+    app.checkbox("Hardware Acceleration", true),
+    app.checkbox("Realtime Profiler", false),
+    app.text("Thread Pool Size:"),
+    app.slider(1, 64, 16),
+    app.text("Working Directory:"),
+    app.input("Enter project path...", "")
+]);
+
+var mainLayout = app.column([
+    header,
+    app.divider(),
+    app.row([cardMetrics, cardControls])
+]);
+
+app.run({
+    title: "RayQuiro Studio",
+    width: 900,
+    height: 640,
+    content: mainLayout
+});
+```
+
+### Slint Engine Methods
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `app.run` | `app.run(config)` | Launches Slint hardware-accelerated window. `config` accepts `title`, `width`, `height`, and `content`. |
+| `app.to_slint` | `app.to_slint(element, config)` | Generates complete Slint component source markup from the element tree for inspection. |
+| `app.has_slint` | `app.has_slint()` | Returns `true` if the local Slint execution engine is available. |
+| `app.slint_check` | `app.slint_check(element)` | Performs syntax and semantic validation of the generated Slint component tree without opening a window. |
+| `app.slint_screenshot` | `app.slint_screenshot(element, outPath)` | Headless rendering of the component tree directly into a PNG image file. |
+
+---
+
+## 3. UI Component Constructors
+
+All UI elements can be used both in declarative Slint desktop apps and in HTML export:
+
+| Element | Signature | Description |
+|---------|-----------|-------------|
+| **Button** | `app.button(text, options)` | Interactive push button. |
+| **Text** | `app.text(text, options)` | Text label. |
+| **Heading** | `app.heading(text, level, options)` | Header title (`level` 1 through 6). |
+| **Input** | `app.input(placeholder, value, options)` | Single-line editable text input field. |
+| **Textarea** | `app.textarea(placeholder, value, options)` | Multi-line text edit container. |
+| **Checkbox** | `app.checkbox(label, checked, options)` | Boolean toggle checkbox. |
+| **Slider** | `app.slider(min, max, value, options)` | Range slider control. |
+| **Progress** | `app.progress(value, max, options)` | Visual progress bar indicator. |
+| **Divider** | `app.divider(options)` | Horizontal separator line. |
+| **Row** | `app.row(children, options)` | Horizontal layout container (`HorizontalLayout`). |
+| **Column** | `app.column(children, options)` | Vertical layout container (`VerticalLayout`). |
+| **Card** | `app.card(children, options)` | Elevated card panel with dark background and border. |
+| **Box** | `app.box(children, options)` | Generic container block with padding and border. |
+| **Select** | `app.select(optionsArray, selectedIndex, options)` | Dropdown selection control. |
+| **Link** | `app.link(url, text, options)` | Hyperlink anchor element. |
+| **Image** | `app.image(src, options)` | Image view element. |
+| **Generic** | `app.element(tag, props, children, style)` | Generic custom UI element constructor. |
+
+---
+
+## 4. Native Desktop GUI Applications (OS Windowing)
+
+For lightweight, zero-dependency system utility windows, `rayquiro.app` provides direct native Win32/Linux desktop windowing:
 
 ```rq
 import "rayquiro.app";
 import "rayquiro.ui";
 
-app.init("RayQuiro v1.1 Studio", 520, 380);
-
+app.init("RayQuiro Utility", 520, 380);
 app.set_theme("dark");
 
-app.text("Welcome to RayQuiro Desktop Application");
-app.input("Project name or path...");
-app.checkbox("Enable Vulkan PBR hardware acceleration", true);
-app.button("Create Project");
+app.text("System Diagnostics");
+app.input("Filter query...");
+app.checkbox("Verbose logging", true);
+app.button("Execute");
 
 app.run();
 ```
 
-### Desktop Window & Controls API
+### Native OS Windowing API
 
 | Function | Signature | Description |
 |----------|-----------|-------------|
@@ -73,34 +160,9 @@ app.run();
 
 ---
 
-## 3. Declarative DOM & HTML Elements
+## 5. Declarative DOM & HTML Export
 
-`rayquiro.app` can also be used as a structured UI element tree generator that serializes directly to clean HTML:
-
-| Element | Signature | Description |
-|---------|-----------|-------------|
-| **Button** | `app.button(text, options)` | Interactive button element (`<button>`). |
-| **Text** | `app.text(text, options)` | Text span / label element (`<span>`). |
-| **Label** | `app.label(text, options)` | Form label element (`<label>`). |
-| **Input** | `app.input(placeholder, value, options)` | Text input field (`<input>`). |
-| **Textarea** | `app.textarea(placeholder, value, options)` | Multi-line text field (`<textarea>`). |
-| **Checkbox** | `app.checkbox(label, checked, options)` | Toggle checkbox (`<input type="checkbox">`). |
-| **Radio** | `app.radio(label, group, checked, options)` | Radio button (`<input type="radio">`). |
-| **Slider** | `app.slider(min, max, value, options)` | Numeric range slider (`<input type="range">`). |
-| **Progress** | `app.progress(value, max, options)` | Progress bar (`<progress>`). |
-| **Select** | `app.select(optionsArray, selectedIndex, options)` | Dropdown select menu (`<select>`). |
-| **Image** | `app.image(src, options)` | Image element (`<img>`). |
-| **Link** | `app.link(url, text, options)` | Anchor hyperlink (`<a href="...">`). |
-| **Heading** | `app.heading(text, level, options)` | Heading element `<h1>` - `<h6>`. |
-| **Divider** | `app.divider(options)` | Horizontal divider line (`<hr />`). |
-| **Row** | `app.row(children, options)` | Horizontal flexbox layout container. |
-| **Column** | `app.column(children, options)` | Vertical flexbox layout container. |
-| **Box** | `app.box(children, options)` | Container block (`<div>`). |
-| **Card** | `app.card(children, options)` | Styled card container. |
-| **Generic** | `app.element(tag, props, children, style)` | Generic custom HTML tag constructor. |
-| **To HTML** | `app.to_html(element)` | Serializes element tree directly to HTML string. |
-
-### Component Composition Example
+The same element hierarchy created with `app.row`, `app.column`, `app.card`, etc., can be serialized directly to HTML:
 
 ```rq
 import "rayquiro.app";

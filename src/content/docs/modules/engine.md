@@ -78,6 +78,16 @@ All 3D primitives are rendered with hardware depth-buffering and dynamic lightin
 - `engine.draw_line_3d(start, end, color)` — 3D line segment between two coordinates.
 - `engine.draw_grid(slices, spacing)` — Ground reference grid.
 
+### 3D Models & 2D Textures (glTF, OBJ, PNG, JPG)
+- `engine.load_model(path)` — Loads 3D model file (`.glb`, `.gltf`, `.obj`) and returns model ID.
+- `engine.unload_model(id)` — Releases 3D model and its meshes from GPU memory.
+- `engine.draw_model(id, pos, scale, tint)` — Draws 3D model at position with scale and tint.
+- `engine.draw_model_ex(id, pos, rot_axis, rot_angle, scale, tint)` — Draws 3D model with rotation axis, angle, scale vector, and tint.
+- `engine.load_texture(path)` — Loads 2D texture (`.png`, `.jpg`) into GPU memory and returns texture ID.
+- `engine.unload_texture(id)` — Unloads 2D texture from GPU memory.
+- `engine.draw_texture(id, x, y, tint)` — Draws 2D texture at position `(x, y)` with tint color.
+- `engine.draw_texture_ex(id, x, y, rot, scale, tint)` — Draws 2D texture with rotation angle, scale factor, and tint color.
+
 ### 2D Primitives & UI Overlays
 - `engine.draw_rect(x, y, w, h, color)` — Filled 2D rectangle.
 - `engine.draw_rect_lines(x, y, w, h, color)` — Outlined 2D rectangle.
